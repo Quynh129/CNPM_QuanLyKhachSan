@@ -1,0 +1,25 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+{% if current_user.is_authenticated %}
+<body style="background-color: #dbd8d6;">
+<h1 class="text-center" style="color: #ac4034;">QUẢN LÝ KHÁCH SẠN - GIAO DIỆN ADMIN</h1>
+<h3>CHÀO <SPAN class="text-danger">{{current_user.name}}</span></h3>
+</body>
+
+{% else %}
+<form method="post" action="/danhNhap-admin">
+    <div class="mb-3 mt-3">
+        <label for="usernameID" class="form-label">Tên đăng nhập:</label>
+        <input type="text" class="form-control" id="usernameID" placeholder="Enter username" name="username">
+    </div>
+    <div class="mb-3">
+        <label for="passwordID" class="form-label">Mật khẩu:</label>
+        <input type="password" class="form-control" id="passwordID" placeholder="Enter password" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+</form>
+{% endif %}
+
+{% endblock %}

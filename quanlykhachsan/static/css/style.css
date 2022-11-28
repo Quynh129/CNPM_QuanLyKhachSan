@@ -1,0 +1,12 @@
+* {
+    font-family: Arial;
+}
+
+h1.subject {
+    text-align: center;
+}
+
+body {
+    background-color: #dbd8d6;
+    color: white;
+}
