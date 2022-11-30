@@ -86,6 +86,7 @@ class PhieuThuePhong(BaseModel):
     ngayLap = Column(DateTime, default=datetime.today())  # now: tạo phiếu thuê
     ngayThanhToan = Column(DateTime)  # now: thanh toán = ngayTrả (thông thường nếu ko trả trước)
     tongTien = Column(Float, default=0)
+    trangThai = Column(Boolean, default=False)
     ma_taikhoan = Column(Integer, ForeignKey(TaiKhoan.id), nullable=False)
     ma_phong = Column(Integer, ForeignKey(Phong.id), nullable=False)
     fk_phieuthuechitiet = relationship(KhachHang, secondary='phieuthuechitiet', lazy='subquery',
@@ -197,7 +198,7 @@ if __name__ == '__main__':
         d_print_13 = date_time.datetime.strptime('2022/01/05', date_format)
         d_pay_14 = date_time.datetime.strptime('2022/01/07', date_format)
         pt1 = PhieuThuePhong(ngayNhan=d_in_11, ngayTra=d_out_12, ngayLap=d_print_13, ngayThanhToan=d_pay_14,
-                             tongTien=abs(d_in_11-d_out_12).days*2000000*1.5,
+                             tongTien=abs(d_in_11-d_out_12).days*2000000*1.5, trangThai=True,
                              ma_taikhoan=3, ma_phong=25)  # là pd1
 
         # phiếu thuê 2 đã được thanh toán
@@ -206,7 +207,7 @@ if __name__ == '__main__':
         d_print_23 = date_time.datetime.strptime('2022/01/05', date_format)
         d_pay_24 = date_time.datetime.strptime('2022/01/07', date_format)
         pt2 = PhieuThuePhong(ngayNhan=d_in_21, ngayTra=d_out_22, ngayLap=d_print_23, ngayThanhToan=d_pay_24,
-                             tongTien=abs(d_in_21-d_out_22).days*1000000*1.25,
+                             tongTien=abs(d_in_21-d_out_22).days*1000000*1.25, trangThai=True,
                              ma_taikhoan=2, ma_phong=1)  # là pd3
 
         # phiếu thuê 3 chưa được thanh toán, cài đặt ngày trả la today để khi khởi tạo csdl sẽ có phiếu cần thanh toán
