@@ -103,12 +103,6 @@ def chitietphieuthue():
     return render_template('chiTietPhieuthue.html')
 
 
-# gọi trang Chi tiết phiếu đặt
-@app.route('/chiTietHoaDon')
-def chitiethoadon():
-    return render_template('chiTietHoaDon.html')
-
-
 # gọi trang Xếp phòng
 @app.route('/xepPhong')
 def xepphong():

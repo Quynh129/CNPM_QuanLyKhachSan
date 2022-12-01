@@ -1,7 +1,7 @@
 import json
 from quanlykhachsan import app
-from quanlykhachsan.models import TaiKhoan, LoaiKhachHang, KhachHang, LoaiPhong, Phong, \
-    PhieuDatPhong, PhieuThuePhong, PhieuThueChiTiet, HoaDon, TiLePhuThu
+from quanlykhachsan.models import TaiKhoan, KhachHang, LoaiPhong, Phong, \
+    PhieuDatPhong, PhieuThuePhong, PhieuThueChiTiet, TiLePhuThu
 import hashlib
 
 
