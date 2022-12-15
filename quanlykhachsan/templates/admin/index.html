@@ -1,25 +1,40 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
+<div class="row-fluid">
+    {% if current_user.is_authenticated and flag %}
+    <body style="background-color: #dbd8d6;">
+    <h1 class="text-center" style="color: #ac4034;">QUẢN LÝ KHÁCH SẠN</h1>
+    <h3 class="text-center" style="color: #ac4034;">GIAO DIỆN ADMIN</h3>
 
-{% if current_user.is_authenticated %}
-<body style="background-color: #dbd8d6;">
-<h1 class="text-center" style="color: #ac4034;">QUẢN LÝ KHÁCH SẠN - GIAO DIỆN ADMIN</h1>
-<h3>CHÀO <SPAN class="text-danger">{{current_user.name}}</span></h3>
-</body>
+    <img src="https://califoniahotel.webhotel.vn/files/images/slider/bn1.jpg" style="max-width: 100%" alt="...">
 
-{% else %}
-<form method="post" action="/dangNhap-admin">
-    <div class="mb-3 mt-3">
-        <label for="usernameID" class="form-label">Tên đăng nhập:</label>
-        <input type="text" class="form-control" id="usernameID" placeholder="Enter username" name="username">
+    <h3>CHÀO <span class="text-danger">{{current_user.hoTen}}</span></h3>
+
+    <div class="d-flex flex-row-reverse">
+        <a class="btn btn-info mx-2" href="/dangXuat">Đăng xuất</a>
     </div>
-    <div class="mb-3">
-        <label for="passwordID" class="form-label">Mật khẩu:</label>
-        <input type="password" class="form-control" id="passwordID" placeholder="Enter password" name="password">
+    </body>
+
+    {% else %}
+    {% if current_user.is_authenticated %}
+    <div class="alert alert-danger">
+        <strong>Tài khoản hiện tại của bạn không có quyền truy cập trang quản trị</strong>
+        <p>Tài khoản hiện tại: {{current_user.hoTen}}, phân quyền: {{current_user.phanQuyen.name}}</p>
     </div>
-    <button type="submit" class="btn btn-primary">Đăng nhập</button>
-</form>
-{% endif %}
+    {% endif %}
+    <form method="post" action="/dangNhap-admin">
+        <div class="mb-3 mt-3">
+            <label for="i_username" class="form-label">Tên đăng nhập:</label>
+            <input type="text" class="form-control" id="i_username" placeholder="Enter username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="i_password" class="form-label">Mật khẩu:</label>
+            <input type="password" class="form-control" id="i_password" placeholder="Enter password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+    </form>
+    {% endif %}
+</div>
 
 {% endblock %}

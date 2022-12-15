@@ -15,13 +15,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/thuePhong">Thuê phòng</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/thanhToan">Thanh toán</a>
-                </li>
             </ul>
             <div class="d-flex flex-row-reverse">
                 <a class="btn btn-info mx-2" href="/dangXuat">Đăng xuất</a>
             </div>
+        </div>
+        <div class="row">
+            {% if current_user.is_authenticated %}
+            <div class="">
+                <p>CHÀO <span class="text-danger">{{current_user.hoTen}}</span></p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </nav>

@@ -1,12 +1,139 @@
 * {
     font-family: Arial;
-}
-
-h1.subject {
-    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     background-color: #dbd8d6;
-    color: white;
+    color: black;
 }
+
+h1 {
+    margin: 50px auto 50px auto;
+    text-align: center;
+    padding-top: 1rem;
+    color: Black;
+}
+
+div {
+    position: relative;
+    box-sizing: border-box;
+}
+
+/*Select: yeuCauDatPhong, */
+select {
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+}
+/**/
+
+/*Search: datPhong, thuePhong*/
+.search {
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: linear-gradient(to right, #fa9e1b, #8d4fff);
+    z-index: 10;
+}
+
+.search_panel {
+    width: 100%;
+    height: 100%;
+    animation: fadeEffect 1s;
+}
+
+.search_panel_content {
+    width: 100%;
+    height: 100%;
+}
+
+.search_name{
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 12px;
+    background: #31124b;
+    transform: translateY(15px);
+    height: 50px;
+}
+
+.search_item:{
+
+}
+
+.search_input {
+    font-size: 16px;
+    font-weight: bold;
+    color: #929191;
+    line-height: 1.6;
+    padding-left: 25px;
+    padding-right: 25px;
+    transform: translateY(15px);
+    height: 50px;
+    border: none;
+    outline: none;
+}
+
+.search_sellect {
+    font-size: 16px;
+    font-weight: bold;
+    color: #929191;
+    background: white;
+    transform: translateY(15px);
+    height: 50px;
+}
+
+.search_button {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.6;
+    text-transform: uppercase;
+    padding-left: 45px;
+    padding-right: 45px;
+    background: #31124b;
+    transform: translateY(15px);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.button {
+    display: inline;
+    height: 50px;
+    border-radius: 27px;
+    overflow: hidden;
+}
+
+.button span:first-child {
+    margin-left: 10px;
+}
+.button span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 5.75px;
+    height: 5.63px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    margin-right: 2px;
+}
+/*--search--*/
+
+/* Table-phần bảng: trong: trong: datPhong, thuePhong */
+.table{
+    width: 100%;
+    padding: 16px;
+    padding: 1rem;
+}
+th {
+  height: 70px;
+}
+/*--table--*/
+

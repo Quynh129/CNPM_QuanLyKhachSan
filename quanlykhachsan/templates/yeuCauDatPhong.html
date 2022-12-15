@@ -1,7 +1,116 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+<div class="col-xl-6 col-lg-12 mx-auto d-block">
+    <h1 class="text-center">ĐẶT PHÒNG KHÁCH SẠN</h1>
 
-<h1 class="text-center">YÊU CẦU ĐẶT PHÒNG TỪ KHÁCH HÀNG</h1>
+    {% if flag %}
+    <div class="alert alert-success alert-dismissible  fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Tạo yêu cầu thành công!</strong> Bạn có muốn quay về <a href="/" class="alert-link">Trang chủ</a>?
+    </div>
+    {% else %}
+    {% if err_msg %}
+    <div class="alert alert-danger alert-dismissible  fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{err_msg}}</strong>
+    </div>
+    {% endif %}
+    {% endif %}
 
+    <form method="post" enctype="multipart/form-data" action="/yeuCauDatPhong">
+        <div class="card border border-secondary shadow">
+            <div style="padding: 25px;">
+                <h3 class="text-center"><span>Thông tin khách hàng</span></h3>
+                <div class="row">
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_cus_name" class="form-label">Họ tên:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_cus_name"
+                               placeholder="Họ tên của bạn..." name="cus_name" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                    </div>
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_cus_type" class="form-label">Quốc tịch:</label>
+                        <select class="form-select form-select-lg" id="i_cus_type" name="cus_nation" required>
+                            {% include '/layout/country.html' %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_cus_cccd" class="form-label">CCCD/CMND:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_cus_cccd"
+                               placeholder="CCCD/CMND của bạn..." name="cus_cccd" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                    </div>
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_cus_phone" class="form-label">Số điện thoại:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_cus_phone"
+                               placeholder="Số điện thoại của bạn..." name="cus_phone" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card border border-secondary shadow">
+            <div style="padding: 25px;">
+                <h3 class="text-center"><span>Thông tin phòng</span></h3>
+                {% if loaiphong %}
+                <div class="mb-3 mt-3">
+                    <label for="i_type_room" class="form-label">Phân loại phòng:</label>
+                    <select class="form-select form-select-lg" id="i_type_room" name="type_room">
+                        {% for loaip in loaiphong %}
+                        <option value="{{loaip.id}}">{{loaip.tenLoai}}: {{"{:,.0f}".format(loaip.donGia)}} VNĐ</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_checkin" class="form-label">Ngày dự kiến nhận phòng:</label>
+                        <input type="date" class="form-control form-control-lg" id="i_checkin" name="checkin" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                    </div>
+                    <div class="mb-3 mt-3 col">
+                        <label for="i_checkout" class="form-label">Ngày dự kiến trả phòng:</label>
+                        <input type="date" class="form-control form-control-lg" id="i_checkout" name="checkout"
+                               required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Đặt phòng" class="btn btn-primary mx-auto d-block">
+        <a class="btn btn-info" href="/">Hủy</a>
+    </form>
+</div>
+<br><br>
+<div class="card border border-info shadow">
+    <h1>Một số quy định khi đặt phòng khách sạn</h1>
+    <ul>
+        <li>
+            <h3>Quy định chung:</h3>
+            <ol class="list-group list-group-numbered list-group-flush">
+                <li class="list-group-item">Mỗi lần đặt phòng, bạn chỉ được đặt 1 phòng</li>
+                <li class="list-group-item">Thời điểm nhận phòng không được quá 28 ngày kể từ thời điểm đặt</li>
+                <li class="list-group-item">Hầu hết mỗi phòng chỉ được ở tối đa 3 khách</li>
+            </ol>
+        </li>
+        <br>
+        <li>
+            <h3>Quy định phụ thu:</h3>
+            <ol class="list-group list-group-numbered list-group-flush">
+                <li class="list-group-item">Đơn giá hiện tại dành cho 2 khách, nếu có khách thứ 3: phụ thu thêm 25%</li>
+                <li class="list-group-item">Đối với khách nước ngoài: giá phòng sẽ được nhân hệ số 1.5</li>
+            </ol>
+        </li>
+    </ul>
+</div>
 {% endblock %}

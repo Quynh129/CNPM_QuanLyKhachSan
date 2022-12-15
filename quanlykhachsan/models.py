@@ -37,8 +37,9 @@ class KhachHang(BaseModel):
     soDienThoai = Column(String(50), nullable=False)
     quocTich = Column(String(50), nullable=False)
     fk_phieudat = relationship('PhieuDatPhong', backref='khachhang', lazy=False)
-    fk_phieuthuechitiet = relationship('PhieuThuePhong', secondary='phieuthuechitiet', lazy='subquery',
-                                       backref=backref('khachhang', lazy=True))
+
+    def __str__(self):
+        return self.hoTen
 
 
 class LoaiPhong(BaseModel):
@@ -68,15 +69,10 @@ class PhieuDatPhong(BaseModel):
     ngayTra = Column(DateTime, default=datetime.today())
     ngayDat = Column(DateTime, default=datetime.today())  # now: tạo phiếu đặt
     trangThai = Column(String(50), nullable=False)
-    ma_taikhoan = Column(Integer, ForeignKey(TaiKhoan.id), nullable=False)
+    ma_taikhoan = Column(Integer, ForeignKey(TaiKhoan.id))
     ma_khachhang = Column(Integer, ForeignKey(KhachHang.id), nullable=False)
     ma_loaiphong = Column(Integer, ForeignKey(LoaiPhong.id), nullable=False)
     ma_phong = Column(Integer, ForeignKey(Phong.id))
-
-
-HoaDonChiTiet = db.Table('hoadonchitiet',
-                         Column('ma_phieuthue', Integer, ForeignKey('phieuthuephong.id'), primary_key=True),
-                         Column('ma_tile', Integer, ForeignKey('tilephuthu.id'), primary_key=True))
 
 
 class PhieuThuePhong(BaseModel):
@@ -85,20 +81,25 @@ class PhieuThuePhong(BaseModel):
     ngayTra = Column(DateTime, default=datetime.today())
     ngayLap = Column(DateTime, default=datetime.today())  # now: tạo phiếu thuê
     ngayThanhToan = Column(DateTime)  # now: thanh toán = ngayTrả (thông thường nếu ko trả trước)
-    tongTien = Column(Float, default=0)
     trangThai = Column(Boolean, default=False)
+
+    soNgay = Column(Integer, nullable=False)
+    donGia = Column(Float, default=0)
+    tiLe = Column(Float, default=1)  # là tích các tỉ lệ
+    # Tổng tiền = soNgay * donGia * tiLe
+
     ma_taikhoan = Column(Integer, ForeignKey(TaiKhoan.id), nullable=False)
     ma_phong = Column(Integer, ForeignKey(Phong.id), nullable=False)
-    fk_phieuthuechitiet = relationship(KhachHang, secondary='phieuthuechitiet', lazy='subquery',
+
+    fk_phieuthuechitiet = relationship('KhachHang', secondary='phieuthuechitiet', lazy='subquery',
                                        backref=backref('phieuthuephong', lazy=True))
-    fk_hoadonchitiet = relationship('TiLePhuThu', secondary='hoadonchitiet', lazy='subquery',
+    fk_phieuthuetile = relationship('TiLePhuThu', secondary='phieuthuetile', lazy='subquery',
                                     backref=backref('phieuthuephong', lazy=True))
     # secondary: trung gian
 
 
 class PhieuThueChiTiet(db.Model):
     __tablename__ = 'phieuthuechitiet'
-    soNgay = Column(Integer, nullable=False)
     ma_khachhang = Column(Integer, ForeignKey(KhachHang.id), primary_key=True)
     ma_phieuthue = Column(Integer, ForeignKey(PhieuThuePhong.id), primary_key=True)
 
@@ -108,8 +109,12 @@ class TiLePhuThu(BaseModel):
     tenLoai = Column(String(50), nullable=False)
     ten = Column(String(50), nullable=False)
     giaTri = Column(Float, default=0)
-    # fk_hoadonchitiet: trung gian manyx2 là 2 chiều + ko có dlieu chung khác
-    #   nên fk chỉ cần đặt ở 1 bảng parent --> fk ở phiếu thuê
+
+
+class PhieuThueTiLe(db.Model):
+    __tablename__ = 'phieuthuetile'
+    ma_tile = Column(Integer, ForeignKey(TiLePhuThu.id), primary_key=True)
+    ma_phieuthue = Column(Integer, ForeignKey(PhieuThuePhong.id), primary_key=True)
 
 
 if __name__ == '__main__':
@@ -137,19 +142,19 @@ if __name__ == '__main__':
         db.session.commit()
 
         # thêm data cho: KhachHang
-        kh1 = KhachHang(hoTen='Quý Ngài A', CCCD='079080012345', soDienThoai='0123456789', quocTich='Mỹ')
+        kh1 = KhachHang(hoTen='Quý Ngài A', CCCD='079080012345', soDienThoai='0123456789', quocTich='United States')
         kh2 = KhachHang(hoTen='Quý Cô B', CCCD='079190012345', soDienThoai='0123456789', quocTich='Việt Nam')
         kh3 = KhachHang(hoTen='Quý Ông C', CCCD='079050012345', soDienThoai='0123456789', quocTich='Việt Nam')
         kh4 = KhachHang(hoTen='Quý Bà D', CCCD='079155012345', soDienThoai='0123456789', quocTich='Việt Nam')
         kh5 = KhachHang(hoTen='Chàng Trai E', CCCD='079202012345', soDienThoai='0123456789', quocTich='Việt Nam')
-        kh6 = KhachHang(hoTen='Cô Gái F', CCCD='079301012345', soDienThoai='0123456789', quocTich='Anh')
+        kh6 = KhachHang(hoTen='Cô Gái F', CCCD='079301012345', soDienThoai='0123456789', quocTich='United Kingdom')
 
         db.session.add_all([kh1, kh2, kh3, kh4, kh5, kh6])
         db.session.commit()
 
         # thêm data cho: LoaiPhong
-        lp1 = LoaiPhong(tenLoai='phòng bình thường', donGia=1000000, soNguoiToiDa=3)
-        lp2 = LoaiPhong(tenLoai='phòng VIP', donGia=2000000, soNguoiToiDa=3)
+        lp1 = LoaiPhong(tenLoai='Phòng bình thường', donGia=1000000, soNguoiToiDa=3)
+        lp2 = LoaiPhong(tenLoai='Phòng VIP', donGia=2000000, soNguoiToiDa=3)
 
         db.session.add_all([lp1, lp2])
         db.session.commit()
@@ -181,10 +186,10 @@ if __name__ == '__main__':
                             ngayTra=date_time.datetime.strptime('2022/12/10', date_format),
                             ngayDat=date_time.datetime.strptime('2022/11/19', date_format),
                             trangThai='Chờ nhận phòng', ma_taikhoan=3, ma_khachhang=1, ma_loaiphong=1, ma_phong=4)
-        pd5 = PhieuDatPhong(ngayNhan=date_time.datetime.strptime('2023/01/01', date_format),
-                            ngayTra=date_time.datetime.strptime('2023/01/05', date_format),
-                            ngayDat=date_time.datetime.strptime('2022/11/25', date_format),
-                            trangThai='Chờ tiếp nhận', ma_taikhoan=4, ma_khachhang=6, ma_loaiphong=1)
+        pd5 = PhieuDatPhong(ngayNhan=datetime.today() + date_time.timedelta(days=5),
+                            ngayTra=datetime.today() + date_time.timedelta(days=10),
+                            ngayDat=datetime.today(),
+                            trangThai='Chờ tiếp nhận', ma_khachhang=6, ma_loaiphong=1)
 
         db.session.add_all([pd1, pd2, pd3, pd4, pd5])
         db.session.commit()
@@ -195,44 +200,93 @@ if __name__ == '__main__':
         # phiếu thuê 1 đã được thanh toán
         d_in_11 = date_time.datetime.strptime('2022/01/05', date_format)
         d_out_12 = date_time.datetime.strptime('2022/01/07', date_format)
-        d_print_13 = date_time.datetime.strptime('2022/01/05', date_format)
-        d_pay_14 = date_time.datetime.strptime('2022/01/07', date_format)
+        d_print_13 = date_time.datetime.strptime('2022/01/05', date_format)  # = d_in
+        d_pay_14 = date_time.datetime.strptime('2022/01/07', date_format)  # = d_out
         pt1 = PhieuThuePhong(ngayNhan=d_in_11, ngayTra=d_out_12, ngayLap=d_print_13, ngayThanhToan=d_pay_14,
-                             tongTien=abs(d_in_11-d_out_12).days*2000000*1.5, trangThai=True,
-                             ma_taikhoan=3, ma_phong=25)  # là pd1
+                             soNgay=abs(d_in_11 - d_out_12).days, donGia=2000000, tiLe=1 * 1.5,
+                             trangThai=True, ma_taikhoan=3, ma_phong=25)  # là pd1
 
         # phiếu thuê 2 đã được thanh toán
         d_in_21 = date_time.datetime.strptime('2022/11/01', date_format)
         d_out_22 = date_time.datetime.strptime('2022/11/04', date_format)
-        d_print_23 = date_time.datetime.strptime('2022/01/05', date_format)
-        d_pay_24 = date_time.datetime.strptime('2022/01/07', date_format)
+        d_print_23 = date_time.datetime.strptime('2022/11/01', date_format)
+        d_pay_24 = date_time.datetime.strptime('2022/11/04', date_format)
         pt2 = PhieuThuePhong(ngayNhan=d_in_21, ngayTra=d_out_22, ngayLap=d_print_23, ngayThanhToan=d_pay_24,
-                             tongTien=abs(d_in_21-d_out_22).days*1000000*1.25, trangThai=True,
-                             ma_taikhoan=2, ma_phong=1)  # là pd3
+                             soNgay=abs(d_in_21 - d_out_22).days, donGia=1000000, tiLe=1.25 * 1,
+                             trangThai=True, ma_taikhoan=2, ma_phong=1)  # là pd3
 
         # phiếu thuê 3 chưa được thanh toán, cài đặt ngày trả la today để khi khởi tạo csdl sẽ có phiếu cần thanh toán
-        d_in_31 = datetime.today()+date_time.timedelta(days=-5)
+        d_in_31 = datetime.today() + date_time.timedelta(days=-5)
         d_out_32 = datetime.today()
-        d_print_33 = datetime.today()+date_time.timedelta(days=-5)
+        d_print_33 = datetime.today() + date_time.timedelta(days=-5)
         pt3 = PhieuThuePhong(ngayNhan=d_in_31, ngayTra=d_out_32, ngayLap=d_print_33,
-                             tongTien=abs(d_in_31-d_out_32).days*1000000*1.5,
+                             soNgay=abs(d_in_31 - d_out_32).days, donGia=1000000, tiLe=1 * 1.5,
                              ma_taikhoan=4, ma_phong=7)  # thuê trực tiếp, ko đặt trc
 
-        db.session.add_all([pt1, pt2, pt3])
+        # 1 loạt phiếu đã thanh toán (test thống kê) (ko có phiếu đặt)
+        # pt4, 5: có KH NN; pt 6,7: =3KH
+        d_in_41 = date_time.datetime.strptime('2022/02/05', date_format)
+        d_out_42 = date_time.datetime.strptime('2022/02/07', date_format)
+        d_print_43 = date_time.datetime.strptime('2022/02/05', date_format)  # = d_in
+        d_pay_44 = date_time.datetime.strptime('2022/02/07', date_format)  # = d_out
+        pt4 = PhieuThuePhong(ngayNhan=d_in_41, ngayTra=d_out_42, ngayLap=d_print_43, ngayThanhToan=d_pay_44,
+                             soNgay=abs(d_in_41 - d_out_42).days, donGia=1000000, tiLe=1 * 1.5,
+                             trangThai=True, ma_taikhoan=3, ma_phong=19)
+
+        d_in_51 = date_time.datetime.strptime('2022/05/05', date_format)
+        d_out_52 = date_time.datetime.strptime('2022/05/07', date_format)
+        d_print_53 = date_time.datetime.strptime('2022/05/05', date_format)  # = d_in
+        d_pay_54 = date_time.datetime.strptime('2022/05/07', date_format)  # = d_out
+        pt5 = PhieuThuePhong(ngayNhan=d_in_51, ngayTra=d_out_52, ngayLap=d_print_53, ngayThanhToan=d_pay_54,
+                             soNgay=abs(d_in_51 - d_out_52).days, donGia=2000000, tiLe=1 * 1.5,
+                             trangThai=True, ma_taikhoan=3, ma_phong=35)
+
+        d_in_61 = date_time.datetime.strptime('2022/09/01', date_format)
+        d_out_62 = date_time.datetime.strptime('2022/09/04', date_format)
+        d_print_63 = date_time.datetime.strptime('2022/09/01', date_format)
+        d_pay_64 = date_time.datetime.strptime('2022/09/04', date_format)
+        pt6 = PhieuThuePhong(ngayNhan=d_in_61, ngayTra=d_out_62, ngayLap=d_print_63, ngayThanhToan=d_pay_64,
+                             soNgay=abs(d_in_61 - d_out_62).days, donGia=2000000, tiLe=1.25 * 1,
+                             trangThai=True, ma_taikhoan=2, ma_phong=31)
+
+        d_in_71 = date_time.datetime.strptime('2022/08/11', date_format)
+        d_out_72 = date_time.datetime.strptime('2022/08/14', date_format)
+        d_print_73 = date_time.datetime.strptime('2022/08/11', date_format)
+        d_pay_74 = date_time.datetime.strptime('2022/08/14', date_format)
+        pt7 = PhieuThuePhong(ngayNhan=d_in_71, ngayTra=d_out_72, ngayLap=d_print_73, ngayThanhToan=d_pay_74,
+                             soNgay=abs(d_in_71 - d_out_72).days, donGia=1000000, tiLe=1.25 * 1,
+                             trangThai=True, ma_taikhoan=2, ma_phong=12)
+
+        db.session.add_all([pt1, pt2, pt4, pt5, pt6, pt7, pt3])
         db.session.commit()
 
         # thêm data cho: PhieuThueChiTiet
         # pt1 có 1 ptct: ptct1 of KH1
-        ptct1 = PhieuThueChiTiet(soNgay=3, ma_khachhang=1, ma_phieuthue=1)
+        ptct1 = PhieuThueChiTiet(ma_khachhang=1, ma_phieuthue=1)
         # pt2 có 3 ptct: ptct2,3,4 of KH3,2,4
-        ptct2 = PhieuThueChiTiet(soNgay=4, ma_khachhang=3, ma_phieuthue=2)
-        ptct3 = PhieuThueChiTiet(soNgay=4, ma_khachhang=2, ma_phieuthue=2)
-        ptct4 = PhieuThueChiTiet(soNgay=4, ma_khachhang=4, ma_phieuthue=2)
+        ptct2 = PhieuThueChiTiet(ma_khachhang=3, ma_phieuthue=2)
+        ptct3 = PhieuThueChiTiet(ma_khachhang=2, ma_phieuthue=2)
+        ptct4 = PhieuThueChiTiet(ma_khachhang=4, ma_phieuthue=2)
         # pt3 có 2 ptct: ptct5,6 of KH5,6
-        ptct5 = PhieuThueChiTiet(soNgay=31, ma_khachhang=5, ma_phieuthue=3)
-        ptct6 = PhieuThueChiTiet(soNgay=31, ma_khachhang=6, ma_phieuthue=3)
+        ptct5 = PhieuThueChiTiet(ma_khachhang=5, ma_phieuthue=3)
+        ptct6 = PhieuThueChiTiet(ma_khachhang=6, ma_phieuthue=3)
+        # pt4
+        ptct7 = PhieuThueChiTiet(ma_khachhang=1, ma_phieuthue=4)
+        ptct8 = PhieuThueChiTiet(ma_khachhang=2, ma_phieuthue=4)
+        # pt5
+        ptct9 = PhieuThueChiTiet(ma_khachhang=1, ma_phieuthue=5)
+        # pt6
+        ptct10 = PhieuThueChiTiet(ma_khachhang=3, ma_phieuthue=6)
+        ptct11 = PhieuThueChiTiet(ma_khachhang=2, ma_phieuthue=6)
+        ptct12 = PhieuThueChiTiet(ma_khachhang=4, ma_phieuthue=6)
+        # pt7
+        ptct13 = PhieuThueChiTiet(ma_khachhang=3, ma_phieuthue=7)
+        ptct14 = PhieuThueChiTiet(ma_khachhang=2, ma_phieuthue=7)
+        ptct15 = PhieuThueChiTiet(ma_khachhang=4, ma_phieuthue=7)
 
-        db.session.add_all([ptct1, ptct2, ptct3, ptct4, ptct5, ptct6])
+        db.session.add_all(
+            [ptct1, ptct2, ptct3, ptct4, ptct5, ptct6, ptct7, ptct8, ptct9, ptct10, ptct11, ptct12, ptct13, ptct14,
+             ptct15])
         db.session.commit()
 
         # thêm data cho: TiLePhuThu
@@ -241,12 +295,18 @@ if __name__ == '__main__':
         db.session.add_all([tlpt1, tlpt2])
         db.session.commit()
 
-        # thêm data cho: HoaDonChiTiet
-        # -----Quy định: chỉ tạo khi thanh toán, có 2 phiê thuê đã thanh toán
+        # thêm data cho: phieuthuetile
         # Phiếu thuê 1: có người NN, KH=1 --> 1 hdct
         # Phiếu thuê 2: ko có người NN, KH=3 --> 1 hdct
-        db.session.execute(HoaDonChiTiet.insert().values(ma_phieuthue=1, ma_tile=1))
-        db.session.execute(HoaDonChiTiet.insert().values(ma_phieuthue=2, ma_tile=2))
+        # Phiếu thuê 3: có người NN, KH=2 --> 1 hdct
+        pttl1 = PhieuThueTiLe(ma_phieuthue=1, ma_tile=1)
+        pttl2 = PhieuThueTiLe(ma_phieuthue=2, ma_tile=2)
+        pttl3 = PhieuThueTiLe(ma_phieuthue=3, ma_tile=1)
+        pttl4 = PhieuThueTiLe(ma_phieuthue=4, ma_tile=1)
+        pttl5 = PhieuThueTiLe(ma_phieuthue=5, ma_tile=1)
+        pttl6 = PhieuThueTiLe(ma_phieuthue=6, ma_tile=2)
+        pttl7 = PhieuThueTiLe(ma_phieuthue=7, ma_tile=2)
+        db.session.add_all([pttl1, pttl2, pttl3, pttl4, pttl5, pttl6, pttl7])
         db.session.commit()
 
         # hiện có phiếu đặt 4 chờ người nhận: phòng 4

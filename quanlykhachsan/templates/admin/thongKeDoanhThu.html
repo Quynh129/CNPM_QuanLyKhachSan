@@ -1,0 +1,95 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+{% if current_user.is_authenticated %}
+<a class="btn btn-info" href="{{ url_for('thongkeview.index') }}">Trở về</a>
+
+<h1 class="text-center">THÔNG KÊ DOANH THU</h1>
+<br>
+<hr align="center" size="5px" align="center" color="red"/><br>
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="{{ url_for('static', filename='js/month-year.js') }}"></script>
+
+
+<div class="row">
+    <div class="col-xl-5 col-md-5 col-sm-12 card">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Loại phòng</th>
+                <th>Doanh thu</th>
+                <th>Số lượt thuê</th>
+            </tr>
+            {% for tkdt in thongkedoanhthu %}
+            <tr>
+                <td>{{ tkdt[0] }}</td>
+                <td>{{ tkdt[1] }}</td>
+                <td>{{ tkdt[2] }}</td>
+                <td>{{ tkdt[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <hr class="d-sm-none">
+    </div>
+    <div class="col-xl-7 col-md-7 col-sm-12">
+        <div class="card">
+            <form style="padding: 20px">
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div class="row">
+                    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+                        <label for="i_type_room" class="form-label">Phân loại phòng:</label>
+                        <select class="form-select form-select-lg" id="i_type_room" name="type_room">
+                            <option value="" disabled="disabled" selected="selected">Chọn loại phòng</option>
+                            {% for loaip in loaiphong %}
+                            <option value="{{loaip.id}}">{{loaip.tenLoai}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-xl-4 col-md-5 col-sm-12">
+                        <label>Năm</label>
+                        <select name="year" id="year"></select>
+                    </div>
+                    <div class="form-group col-xl-8 col-md-7 col-sm-12">
+                        <label>Tháng</label>
+                        <select name="month" id="month"></select>
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div>
+                            <input type="submit" value="Lọc dữ liệu" class="btn btn-info"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br><br>
+        <div class="card">
+            <canvas id="thongKe_DoanhThu"></canvas>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/my-chart.js') }}"></script>
+<script>
+    let labels = []
+    let data1 = []
+    let data2 = []
+    {% for tkdt in thongkedoanhthu %}
+    labels.push('{{ tkdt[1] }}')
+    data1.push({{ tkdt[2] }})
+    data2.push({{ tkdt[3] }})
+    {% endfor %}
+
+    window.onload = function() {
+        thongKeDoanhThu(labels, data1, data2)
+    }
+</script>
+{% endif %}
+
+{% endblock %}

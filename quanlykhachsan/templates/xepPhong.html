@@ -1,10 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Danh sách phòng để chọn</h1>
-</body>
-</html>
+{% extends 'layout/emp_base.html' %}
+
+{% block content %}
+<h1>Chi tiết phiếu đặt</h1>
+<div class="row">
+    <div class="mt-5 col">
+        {% if current_user.is_authenticated %}
+        <p><strong>Mã nhân viên:</strong> <kbd>{{ current_user.id }}</kbd></p>
+        {% endif %}
+    </div>
+    <div class="mt-5 col">
+        <p><strong>Mã phiếu đặt:</strong> <kbd>{{ phieudatphong.id }}</kbd></p>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" action="/xepPhong/{{phieudatphong.id}}">
+    {% if khachhang %}
+    <div class="card border border-secondary shadow">
+        <div style="padding: 25px;">
+            <h3 class="text-center"><span>Thông tin khách hàng</span></h3>
+            {% for kh in khachhang %}
+            {% if phieudatphong.ma_khachhang == kh.id %}
+            <div class="row">
+                <div class="mb-5 mt-5 col">
+                    <label for="i_cus_name" class="form-label">Họ tên:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_cus_name"
+                           name="cus_name" value="{{kh.hoTen}}" readonly>
+                </div>
+                <div class="mb-5 mt-5 col">
+                    <label for="i_cus_type" class="form-label">Quốc tịch:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_cus_type"
+                           name="cus_nation" value="{{kh.quocTich}}" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-5 mt-5 col">
+                    <label for="i_cus_cccd" class="form-label">CCCD/CMND:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_cus_cccd"
+                           name="cus_cccd" value="{{kh.CCCD}}" readonly>
+                </div>
+                <div class="mb-5 mt-5 col">
+                    <label for="i_cus_phone" class="form-label">Số điện thoại:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_cus_phone"
+                           name="cus_phone" value="{{kh.soDienThoai}}" readonly>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="card border border-secondary shadow">
+        <div style="padding: 25px;">
+            <h3 class="text-center"><span>Thông tin phòng</span></h3>
+            <div class="row">
+                <div class="mb-5 mt-5 col">
+                    <label for="i_checkin" class="form-label">Ngày dự kiến nhận phòng:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_checkin" name="checkin"
+                           value="{{phieudatphong.ngayNhan}}" readonly>
+                </div>
+                <div class="mb-5 mt-5 col">
+                    <label for="i_checkout" class="form-label">Ngày dự kiến trả phòng:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_checkout" name="checkout"
+                           value="{{phieudatphong.ngayTra}}" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-5 mt-5 col">
+                    <label for="i_book" class="form-label">Ngày thực hiện đặt phòng:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_book" name="book"
+                           value="{{phieudatphong.ngayDat}}" readonly>
+                </div>
+                <div class="mb-5 mt-5 col">
+                    <label for="i_state" class="form-label">Trạng thái:</label>
+                    <input type="text" class="form-control form-control-lg" id="i_state" name="state"
+                           value="{{phieudatphong.trangThai}}" readonly>
+                </div>
+            </div>
+
+
+            <div class="row">
+                {% if loaiphong %}
+                <div class="mb-5 mt-5 col-5">
+                    <label for="i_type_room" class="form-label">Phân loại phòng:</label>
+                    {% for loaip in loaiphong %}
+                    {% if loaip.id == phieudatphong.ma_loaiphong %}
+                    <input type="text" class="form-control form-control-lg" id="i_type_room" name="type_room"
+                           value="{{loaip.tenLoai}}" readonly>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if phieudatphong.ma_phong %}
+                <div class="mb-5 mt-5 col-4">
+                    <label for="i_room" class="form-label">Mã phòng:</label>
+                    <input type="number" class="form-control form-control-lg" id="i_room" name="room"
+                           value="{{phieudatphong.ma_phong}}" required>
+                </div>
+                {% else %}
+                <div class="mb-5 mt-5 col-4">
+                    <label for="i_room_null" class="form-label">Mã phòng:</label>
+                    <select class="form-select form-select-lg" id="i_room_null"  name="room">
+                        {% for p in phongtrong %}
+                        <option>{{p}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <p class="float-end">
+        {% if phieudatphong.ma_phong == None %}
+        <input type="submit" value="Cập nhật" class="btn btn-primary">
+        <a class="btn btn-info" href="/datPhong">Hủy</a>
+        {% endif %}
+        <a class="btn btn-info" href="/datPhong">Trở về</a>
+    </p>
+</form>
+
+<br><br>
+
+
+{% endblock %}

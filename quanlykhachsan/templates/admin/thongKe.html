@@ -1,5 +1,58 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-<h1 class="text-center text-success">THÔNG KÊ VÀ BÁO CÁO</h1>
+
+{% if current_user.is_authenticated %}
+<h1 class="text-center">THỐNG KÊ VÀ BÁO CÁO</h1>
+<br>
+<hr align="center" size="5px" align="center" color="red"/><br>
+
+<div class="row">
+    <div class="col card">
+        <h3 class="text-center">Thống kê doanh thu</h3>
+        <div class="card">
+            <canvas id="thongKe_DoanhThu"></canvas>
+        </div>
+        <br>
+        <a class="btn btn-info mx-auto d-block" href="{{ url_for('thongkeview.thongkedoanhthu') }}">Thống kê doanh thu</a>
+        <br>
+    </div>
+    <div class="col card">
+        <h3 class="text-center">Thống kê tần suất</h3>
+        <div class="card">
+            <canvas id="thongKe_TanSuat"></canvas>
+        </div>
+        <br>
+        <a class="btn btn-info mx-auto d-block" href="{{ url_for('thongkeview.thongketansuat') }}">Thống kê tần suất</a>
+        <br>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/my-chart.js') }}"></script>
+<script>
+    let labels = []
+    let data1 = []
+    let data2 = []
+    {% for tkdt in thongkedoanhthu %}
+    labels.push('{{ tkdt[1] }}')
+    data1.push({{ tkdt[2] }})
+    data2.push({{ tkdt[3] }})
+    {% endfor %}
+
+    let labels2 = []
+    let data3 = []
+    {% for tkts in thongketansuat %}
+    labels2.push('{{ tkts[0] }}')
+    data3.push({{ tkts[1] }})
+    {% endfor %}
+
+    window.onload = function() {
+        thongKeDoanhThu(labels, data1, data2),
+        thongKeTanSuat(labels2, data3)
+    }
+</script>
+
+{% endif %}
+
 {% endblock %}
