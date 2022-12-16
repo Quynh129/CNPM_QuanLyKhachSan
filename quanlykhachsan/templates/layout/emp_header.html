@@ -1,31 +1,53 @@
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">QUẢN LÝ KHÁCH SẠN</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/soDoPhong">Sơ đồ phòng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/datPhong">Đặt phòng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/thuePhong">Thuê phòng</a>
-                </li>
-            </ul>
-            <div class="d-flex flex-row-reverse">
-                <a class="btn btn-info mx-2" href="/dangXuat">Đăng xuất</a>
+<div class="header">
+    <div class="row container">
+        <div class="col-xl-12 col-lg-4 col-md-12 col-sm-12">
+            <div class="brand">
+                <h2 class="text-center">QUẢN LÝ KHÁCH SẠN P2Q</h2>
             </div>
         </div>
-        <div class="row">
-            {% if current_user.is_authenticated %}
-            <div class="">
-                <p>CHÀO <span class="text-danger">{{current_user.hoTen}}</span></p>
+        <div class="col-xl-6 col-lg-7 col-md-8 col-sm-2">
+            <nav class="navbar navbar-expand-md navbar-dark">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavbar"
+                        aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/soDoPhong">Sơ đồ phòng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/datPhong">Đặt phòng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/thuePhong">Thuê phòng</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-xl-6 col-lg-5 col-md-4 col-sm-9">
+            <div class="row">
+                {% if current_user.is_authenticated %}
+                <div class="account-header dropdown col-xl-9 col-md-6 col-sm-6">
+                    <i class="fa fa-user-secret fa-2x acc-icon" aria-hidden="true"
+                       data-bs-toggle="dropdown"></i>
+                    <ul class="dropdown-menu">
+                        <p>Tên nhân viên: {{current_user.hoTen}}</p>
+                        <p>Mã số: {{current_user.id}}</p>
+                    </ul>
+                </div>
+
+                <div class="col-xl-3 col-md-6 col-sm-6">
+                    <a class="btn button-header mx-2" href="/dangXuat">Đăng xuất</a>
+                </div>
+                {% else %}
+                <p>lỗi</p>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
-</nav>
+</div>
+
+

@@ -5,115 +5,116 @@
 {% endblock %}
 
 {% block content %}
-<h1>SƠ ĐỒ PHÒNG</h1>
+<h2 class="text-center">SƠ ĐỒ PHÒNG</h2>
+<br>
+<div class="search">
+    <div class="search_panel">
+        <form action="" class="search_panel_content">
+            <div class="row">
+                <div class="mb-3 mt-3 col">
+                    <label for="i_checkin" class="form-label">Ngày dự kiến nhận phòng:</label>
+                    <input type="date" class="form-control form-control-lg" id="i_checkin" name="checkin"
+                           required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                </div>
+                <div class="mb-3 mt-3 col">
+                    <label for="i_checkout" class="form-label">Ngày dự kiến trả phòng:</label>
+                    <input type="date" class="form-control form-control-lg" id="i_checkout" name="checkout"
+                           required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 mt-3 col">
+                    <input type="radio" name="activity" value="tatCa" required>Tất cả
+                    <div class="valid-feedback">Valid.</div>
+                </div>
+                <div class="mb-3 mt-3 col">
+                    <input type="radio" name="activity" value="trong" required>Trống
+                    <div class="valid-feedback">Valid.</div>
+                </div>
+                <div class="mb-3 mt-3 col">
+                    <input type="radio" name="activity" value="daDat" required>Đã đặt
+                    <div class="valid-feedback">Valid.</div>
+                </div>
 
-{% if current_user.is_authenticated %}
-<p><strong>Mã nhân viên:</strong> <kbd>{{ current_user.id }}</kbd></p>
-{% endif %}
+                <div class="mb-3 mt-3 col">
+                    <input type="radio" name="activity" value="dangThue" required>Đang thuê
+                    <div class="valid-feedback">Valid.</div>
+                </div>
+                <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+            </div>
 
-<form action="">
-    <div class="row">
-        <div class="mb-3 mt-3 col">
-            <label for="i_checkin" class="form-label">Ngày dự kiến nhận phòng:</label>
-            <input type="date" class="form-control form-control-lg" id="i_checkin" name="checkin" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
-        </div>
-        <div class="mb-3 mt-3 col">
-            <label for="i_checkout" class="form-label">Ngày dự kiến trả phòng:</label>
-            <input type="date" class="form-control form-control-lg" id="i_checkout" name="checkout" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
-        </div>
+            <div>
+                <button class="button search_button">Tìm kiếm<span></span><span></span><span></span></button>
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="mb-3 mt-3 col">
-            <input type="radio" name="activity" value="tatCa" required>Tất cả
-            <div class="valid-feedback">Valid.</div>
-        </div>
-        <div class="mb-3 mt-3 col">
-            <input type="radio" name="activity" value="trong" required>Trống
-            <div class="valid-feedback">Valid.</div>
-        </div>
-        <div class="mb-3 mt-3 col">
-            <input type="radio" name="activity" value="daDat" required>Đã đặt
-            <div class="valid-feedback">Valid.</div>
-        </div>
-
-        <div class="mb-3 mt-3 col">
-            <input type="radio" name="activity" value="dangThue" required>Đang thuê
-            <div class="valid-feedback">Valid.</div>
-        </div>
-        <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
-    </div>
-
-
-    <div>
-        <button class="button search_button">Tìm kiếm<span></span><span></span><span></span></button>
-    </div>
-</form>
-
-{% if phong %}
-
-<table class="table table-bordered table-hover table-dark">
-    <thead class="table-success">
-    <tr>
-        <th scope="col">Mã phòng</th>
-        <th scope="col">Mã loại phòng</th>
-        <th scope="col">Trạng thái phòng</th>
-        <th scope="col">Mã phiếu đặt</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for p in phong %}
-    <tr>
-        <th>{{ p[0] }}</th>
-        <td>{{ p[1] }}</td>
-        <td>{{ p[2] }}</td>
-        <td>{{ p[3] }}</td>
-        {% if p[2] == 'Trống' %}
-        <td>
-            <a class="btn btn-info " href="/chiTietPhieuDatRong/{{p[0]}}">Đặt Phòng</a>
-        </td>
-        <td>
-            <a class="btn btn-info " href="/chiTietPhieuThueRong/{{p[0]}}">Thuê Phòng Trực tiếp</a>
-        </td>
-        {% endif %}
-        {% if p[2] == 'Đã đặt' %}
-        <td>
-            <a class="btn btn-info " href="/chiTietPhieuDat/{{p[3]}}"> Xem Phiếu đặt</a>
-        </td>
-        <td>
-            {% for pd in phieudatphong %}
-            {% if pd.id == p[3] and pd.ngayNhan == date %}
-            <a class="btn btn-info " href="/chiTietPhieuThueDatTruoc/{{p[3]}}">Thuê Phòng Đặt Trước</a>
-            {% elif pd.id == p[3] and pd.ngayNhan != date %}
-            <a class="btn btn-info disabled" href="/chiTietPhieuThueDatTruoc/{{p[3]}}">Chưa tới ngày nhận</a>
+    <br>
+</div>
+<br><br>
+<div class="container">
+    {% if phong %}
+    <table class="table table-bordered table-hover">
+        <thead class="table-header">
+        <tr>
+            <th scope="col">Mã phòng</th>
+            <th scope="col">Mã loại phòng</th>
+            <th scope="col">Trạng thái phòng</th>
+            <th scope="col">Mã phiếu đặt</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in phong %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+            <td>{{ p[3] }}</td>
+            {% if p[2] == 'Trống' %}
+            <td>
+                <a class="btn table-button-book " href="/chiTietPhieuDatRong/{{p[0]}}">Đặt Phòng</a>
+            </td>
+            <td>
+                <a class="btn table-button-in" href="/chiTietPhieuThueRong/{{p[0]}}">Thuê Phòng Trực tiếp</a>
+            </td>
             {% endif %}
-            {% endfor %}
-        </td>
-        {% endif %}
-        {% if p[2] == 'Đang thuê' %}
-        <td>
-            <a class="btn btn-info disabled" >Phiếu đặt</a>
-        </td>
-        <td>
-            <a class="btn btn-info" href="/thuePhong">Thanh Toán</a>
-        </td>
-        {% endif %}
+            {% if p[2] == 'Đã đặt' %}
+            <td>
+                <a class="btn table-button-book" href="/chiTietPhieuDat/{{p[3]}}"> Xem Phiếu đặt</a>
+            </td>
+            <td>
+                {% for pd in phieudatphong %}
+                {% if pd.id == p[3] and pd.ngayNhan == date %}
+                <a class="btn table-button-in" href="/chiTietPhieuThueDatTruoc/{{p[3]}}">Thuê Phòng Đặt Trước</a>
+                {% elif pd.id == p[3] and pd.ngayNhan != date %}
+                <a class="btn table-button-in disabled" href="/chiTietPhieuThueDatTruoc/{{p[3]}}">Chưa tới ngày nhận</a>
+                {% endif %}
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if p[2] == 'Đang thuê' %}
+            <td>
+                <a class="btn table-button disabled">Phiếu đặt</a>
+            </td>
+            <td>
+                <a class="btn table-button" href="/thuePhong">Thanh Toán</a>
+            </td>
+            {% endif %}
 
 
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% else %}
-
-<p class="text-center" style="color: #333132">Không có phòng nào!</p>
-
-
-{% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">Không có phòng nào!</p>
+    <p class="text-center"  style="color: #582F0E"><strong> Vui lòng chọn ngày nhận và trả phòng cùng với trạng thái</strong></p>
+    {% endif %}
+</div>
 
 {% endblock %}

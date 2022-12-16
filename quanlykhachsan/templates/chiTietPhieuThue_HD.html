@@ -1,11 +1,7 @@
 {% extends 'layout/emp_base.html' %}
 
 {% block content %}
-<h1>Chi tiết phiếu thuê</h1>
-
-{% if current_user.is_authenticated %}
-<p><strong>Mã nhân viên:</strong> <kbd>{{ current_user.id }}</kbd></p>
-{% endif %}
+<h2 class="text-center">Chi tiết phiếu thuê</h2>
 
 {% if err_msg %}
 <div class="alert alert-warning alert-dismissible  fade show">
@@ -14,119 +10,126 @@
 </div>
 {% endif %}
 
-<form method="post" enctype="multipart/form-data" action="/chiTietPhieuThue_HD/{{phieuthuephong.id}}">
-    <div class="card border border-secondary shadow">
-        <div style="padding: 25px;">
-            <h3 class="text-center"><span>Thông tin phiếu thuê</span></h3>
-            <div class="row">
-                <div class="mb-5 mt-5 col">
-                    <label for="i_checkin" class="form-label">Ngày nhận phòng:</label>
-                    <input type="text" class="form-control form-control-lg" id="i_checkin" name="checkin"
-                           value="{{ phieuthuephong.ngayNhan }}" readonly>
-                </div>
-                <div class="mb-5 mt-5 col">
-                    <label for="i_checkout" class="form-label">Ngày trả phòng:</label>
-                    <input type="text" class="form-control form-control-lg" id="i_checkout" name="checkout"
-                           value="{{ phieuthuephong.ngayTra }}" readonly>
-                </div>
-            </div>
-            <div class="row">
-                {% if loaiphong %}
-                <div class="mb-5 mt-5 col-lg-6 col-md-7">
-                    <label for="i_type_room" class="form-label">Phân loại phòng:</label>
-                    <div class="input-group mb-3">
-                        {% for loaip in loaiphong %}
-                        <input type="text" class="form-control form-control-lg" id="i_type_room" name="name_room"
-                               value="{{ loaip[1] }}" readonly>
-                        <input type="number" class="form-control form-control-lg" id="i_type_room_price"
-                               name="type_room"
-                               value="{{ loaip[2] }}" readonly>
-                        {% endfor %}
+{% if current_user.is_authenticated %}
+<p><strong>Mã nhân viên:</strong> <kbd>{{ current_user.id }}</kbd></p>
+{% endif %}
+
+<p><strong>Nhân viên thực hiện trước đó:</strong> <kbd>{{phieuthuephong.ma_taikhoan}}</kbd></p>
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data" action="/chiTietPhieuThue_HD/{{phieuthuephong.id}}">
+        <div class="card shadow">
+            <div class="card-content">
+                <h3 class="text-center"><span>Thông tin phiếu thuê</span></h3>
+                <div class="row">
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_checkin" class="form-label">Ngày nhận phòng:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_checkin" name="checkin"
+                               value="{{ phieuthuephong.ngayNhan }}" readonly>
+                    </div>
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_checkout" class="form-label">Ngày trả phòng:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_checkout" name="checkout"
+                               value="{{ phieuthuephong.ngayTra }}" readonly>
                     </div>
                 </div>
-                {% endif %}
-                <div class="mb-5 mt-5 col-lg-3 col-md-5">
-                    <label for="i_room" class="form-label">Mã phòng:</label>
-                    <input type="number" class="form-control form-control-lg" id="i_room" name="room"
-                           value="{{ phieuthuephong.ma_phong }}" readonly>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="card border border-secondary shadow">
-        <div style="padding: 25px;">
-            <h3 class="text-center"><span>Thông tin khách hàng</span></h3>
-            <table class="table table-bordered table-hover table-dark">
-                <thead class="table-success">
-                <tr>
-                    <th>Mã KH</th>
-                    <th>Họ tên</th>
-                    <th>CCCD</th>
-                    <th>Số điện thoại</th>
-                    <th>Quốc tịch</th>
-                </tr>
-                </thead>
-                {% for kh in khachhangphieuthue %}
-                <tr>
-                    <td>{{ khachhang[kh.ma_khachhang-1].id }}</td>
-                    <td>{{ khachhang[kh.ma_khachhang-1].hoTen }}</td>
-                    <td>{{ khachhang[kh.ma_khachhang-1].CCCD }}</td>
-                    <td>{{ khachhang[kh.ma_khachhang-1].soDienThoai }}</td>
-                    <td>{{ khachhang[kh.ma_khachhang-1].quocTich}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <br>
-    <div class="card border border-secondary shadow">
-        <div style="padding: 25px;">
-            <h3><span>Thông tin thanh toán</span></h3>
-            <div class="row">
-                <div class="mb-5 mt-5 col">
-                    <label for="i_trangThai" class="form-label">Trạng thái</label>
-                    {% if phieuthuephong.trangThai %}
-                    <input type="text" class="form-control form-control-lg" id="i_trangThai" name="trangThai"
-                           value="Đã thanh toán" readonly>
-                    {% else %}
-                    <label for="i_trangThai" class="form-label">Trạng thái</label>
-                    <input type="text" class="form-control form-control-lg" id="i_trangThai2" name="trangThai"
-                           value="Chưa thanh toán" readonly>
+                <div class="row">
+                    {% if loaiphong %}
+                    <div class="mb-5 mt-5 col-lg-6 col-md-7">
+                        <label for="i_type_room" class="form-label">Phân loại phòng:</label>
+                        <div class="input-group mb-3">
+                            {% for loaip in loaiphong %}
+                            <input type="text" class="form-control form-control-lg" id="i_type_room" name="name_room"
+                                   value="{{ loaip[1] }}" readonly>
+                            <input type="number" class="form-control form-control-lg" id="i_type_room_price"
+                                   name="type_room"
+                                   value="{{ loaip[2] }}" readonly>
+                            {% endfor %}
+                        </div>
+                    </div>
                     {% endif %}
-                </div>
-                <div class="mb-5 mt-5 col">
-                    <label for="i_ngayThanhToan" class="form-label">Ngày thanh toán:</label>
-                    {% if phieuthuephong.ngayThanhToan %}
-                    <input type="text" class="form-control form-control-lg" id="i_ngayThanhToan"
-                           name="ngayThanhToan" value="{{phieuthuephong.ngayThanhToan}}" readonly>
-                    {% else %}
-                    <input type="text" class="form-control form-control-lg" id="i_ngayThanhToan2"
-                           name="ngayThanhToan" value="{{ngaythanhtoan}}" readonly>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row">
-                <div class="mb-5 mt-5 col">
-                    <label for="i_phuThu" class="form-label">Tỉ lệ phụ thu:</label>
-                    <input type="text" class="form-control form-control-lg" id="i_phuThu" name="phuThu"
-                           value="{{phieuthuephong.tiLe}}" readonly>
-                </div>
-                <div class="mb-5 mt-5 col">
-                    <label for="i_tongTien" class="form-label">Tổng tiền:</label>
-                    <input type="text" class="form-control form-control-lg" id="i_tongTien" name="tongTien"
-                           value="{{phieuthuephong.donGia*phieuthuephong.soNgay*phieuthuephong.tiLe}} VNĐ" readonly>
+                    <div class="mb-5 mt-5 col-lg-3 col-md-5">
+                        <label for="i_room" class="form-label">Mã phòng:</label>
+                        <input type="number" class="form-control form-control-lg" id="i_room" name="room"
+                               value="{{ phieuthuephong.ma_phong }}" readonly>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <br>
-    <p class="float-end">
-        {% if phieuthuephong.trangThai == 0 %}
-        <input type="submit" value="Thanh toán" class="btn btn-primary">
-        {% endif %}
-        <a class="btn btn-info" href="/thuePhong">Hủy</a>
-    </p>
-</form>
-
+        <br>
+        <div class="card shadow">
+            <div class="card-content">
+                <h3 class="text-center"><span>Thông tin khách hàng</span></h3><br>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-header">
+                    <tr>
+                        <th>Mã KH</th>
+                        <th>Họ tên</th>
+                        <th>CCCD</th>
+                        <th>Số điện thoại</th>
+                        <th>Quốc tịch</th>
+                    </tr>
+                    </thead>
+                    {% for kh in khachhangphieuthue %}
+                    <tr>
+                        <td>{{ khachhang[kh.ma_khachhang-1].id }}</td>
+                        <td>{{ khachhang[kh.ma_khachhang-1].hoTen }}</td>
+                        <td>{{ khachhang[kh.ma_khachhang-1].CCCD }}</td>
+                        <td>{{ khachhang[kh.ma_khachhang-1].soDienThoai }}</td>
+                        <td>{{ khachhang[kh.ma_khachhang-1].quocTich}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="card shadow">
+            <div class="card-content">
+                <h3><span>Thông tin thanh toán</span></h3>
+                <div class="row">
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_trangThai" class="form-label">Trạng thái</label>
+                        {% if phieuthuephong.trangThai %}
+                        <input type="text" class="form-control form-control-lg" id="i_trangThai" name="trangThai"
+                               value="Đã thanh toán" readonly>
+                        {% else %}
+                        <label for="i_trangThai" class="form-label">Trạng thái</label>
+                        <input type="text" class="form-control form-control-lg" id="i_trangThai2" name="trangThai"
+                               value="Chưa thanh toán" readonly>
+                        {% endif %}
+                    </div>
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_ngayThanhToan" class="form-label">Ngày thanh toán:</label>
+                        {% if phieuthuephong.ngayThanhToan %}
+                        <input type="text" class="form-control form-control-lg" id="i_ngayThanhToan"
+                               name="ngayThanhToan" value="{{phieuthuephong.ngayThanhToan}}" readonly>
+                        {% else %}
+                        <input type="text" class="form-control form-control-lg" id="i_ngayThanhToan2"
+                               name="ngayThanhToan" value="{{ngaythanhtoan}}" readonly>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_phuThu" class="form-label">Tỉ lệ phụ thu:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_phuThu" name="phuThu"
+                               value="{{phieuthuephong.tiLe}}" readonly>
+                    </div>
+                    <div class="mb-5 mt-5 col">
+                        <label for="i_tongTien" class="form-label">Tổng tiền:</label>
+                        <input type="text" class="form-control form-control-lg" id="i_tongTien" name="tongTien"
+                               value="{{phieuthuephong.donGia*phieuthuephong.soNgay*phieuthuephong.tiLe}} VNĐ" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <p class="float-end">
+            {% if phieuthuephong.trangThai == 0 %}
+            <input type="submit" value="Thanh toán" class="btn form-button-sub">
+            {% endif %}
+            <a class="btn form-button-can" href="/thuePhong">Hủy</a>
+        </p>
+    </form>
+</div>
 {% endblock %}

@@ -1,11 +1,7 @@
 {% extends 'layout/emp_base.html' %}
 
 {% block content %}
-<h1>Chi tiết phiếu đặt</h1>
-
-{% if current_user.is_authenticated %}
-<p><strong>Mã nhân viên:</strong> <kbd>{{ current_user.id }}</kbd></p>
-{% endif %}
+<h2 class="text-center">Chi tiết phiếu đặt</h2>
 
 {% if err_msg %}
 <div class="alert alert-warning alert-dismissible  fade show">
@@ -14,9 +10,16 @@
 </div>
 {% endif %}
 
+{% if current_user.is_authenticated %}
+<p><strong>Mã nhân viên hiện tại:</strong> <kbd>{{ current_user.id }}</kbd></p>
+{% endif %}
+
+<p><strong>Nhân viên thực hiện trước đó:</strong> <kbd>{{phieudatphong.ma_taikhoan}}</kbd></p>
+
+<div class="container">
 <form method="post" enctype="multipart/form-data" action="/chiTietPhieuDat/{{phieudatphong.id}}">
-    <div class="card border border-secondary shadow">
-        <div style="padding: 25px;">
+    <div class="card shadow">
+        <div class="card-content">
             <h3 class="text-center"><span>Thông tin khách hàng</span></h3>
             {% for kh in khachhang %}
             {% if phieudatphong.ma_khachhang == kh.id %}
@@ -49,8 +52,8 @@
         </div>
     </div>
     <br>
-    <div class="card border border-secondary shadow">
-        <div style="padding: 25px;">
+    <div class="card shadow">
+        <div class="card-content">
             <h3 class="text-center"><span>Thông tin phiếu đặt</span></h3>
             <div class="row">
                 <div class="mb-5 mt-5 col">
@@ -142,14 +145,14 @@
     <br>
     <p class="float-end">
         {% if phieudatphong.trangThai == "Đã nhận phòng" or phieudatphong.trangThai == "Đã hủy" %}
-        <a class="btn btn-info" href="/datPhong">Trở về</a>
+        <a class="btn form-button-can" href="/datPhong">Trở về</a>
         {% else %}
-        <input type="submit" value="Cập nhật" class="btn btn-primary">
-        <a class="btn btn-info" href="/datPhong">Hủy</a>
+        <input type="submit" value="Cập nhật" class="btn form-button-sub">
+        <a class="btn form-button-can" href="/datPhong">Hủy</a>
         {% endif %}
     </p>
 </form>
-
+</div>
 <br><br>
 
 

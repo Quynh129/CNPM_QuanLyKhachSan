@@ -1,74 +1,115 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
-<!--Slider image-->
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://th.bing.com/th/id/R.f3cebabeca7752f22b78cb710305007a?rik=%2fiL8%2fzWuz8uB0w&pid=ImgRaw&r=0" class="d-block w-100" alt="...">
+<section class="section1">
+    <!--Slider image-->
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192590/hotel_p2q/hotel_p2q_img1.jpg"
+                     class="d-block w-100" alt="hotel_p2q_img1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192589/hotel_p2q/hotel_p2q_img2.jpg"
+                     class="d-block w-100" alt="hotel_p2q_img2">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <div class="carousel-item">
-      <img src=https://images.pexels.com/photos/2034335/pexels-photo-2034335.jpeg?auto=compress&cs=tinysrgb&w=600" class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-<div class="container">
-  <!--Title popular room-->
-<h4 style="text-align: center;margin-top: 15px; color: red;">TRẢI NGHIỆM</h4>
-<hr class="text-dark"/>
-<!--Popular room-->
-<div class="d-flex justify-content-around mt-2">
-  <div class="card" style="width: 18rem;border-radius: 15px">
-  <img src="https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text text-dark">Tận hưởng 1 đêm nghỉ tại phòng hiện đại có ban công cộng với dịch vụ đưa đón khứ hồi.</p>
-    <a href="#" class="btn btn-outline-primary">Xem chi tiết</a>
-  </div>
-</div>
-<div class="card" style="width: 18rem;border-radius: 15px">
-  <img src="https://images.pexels.com/photos/2291624/pexels-photo-2291624.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text text-dark">Khám phá khoảnh khắc hài lòng nhất với chỗ ở tiêu chuẩn cao và bữa ăn thịnh soạn.</p>
-    <a href="#" class="btn btn-outline-primary">Xem chi tiết</a>
-  </div>
-</div>
-<div class="card" style="width: 18rem; border-radius: 15px;">
-  <img src="https://images.pexels.com/photos/2291636/pexels-photo-2291636.jpeg?auto=compress&cs=tinysrgb&w=600/" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text text-dark">Chào đón năm mới, tận hưởng những khoảnh khắc tuyệt vời cùng P2Q Hotel. </p>
-    <a href="#" class="btn btn-outline-primary">Xem chi tiết</a>
-  </div>
-</div>
-</div>
-<!--Lading page-->
-<div class="container-fluid">
-  <div class="row mt-3">
-    <div class="col-6 d-flex flex-column justify-content-center align-items-center">
-      <p>P2Q Hotel tự hào có 17 phòng Deluxe mang đến cảm giác thư giãn và trang nhã theo Phong cách Tân cổ điển. Mỗi phòng tại P2Q Hotel là sự kết hợp của vẻ đẹp, tính thẩm mỹ và nghệ thuật.</p>
-    <button class="btn btn-danger">Xem chi tiết</button>
-    </div>
-    <div class="col-6">
-      <img style="width:100%;" src="https://suwayhotel.webhotel.vn/files/images/Room/deluxe-city-view/3.jpg">
-    </div>
-  </div>
-  <div class="row mt-3">
-     <div class="col-6">
-      <img style="width:100%;" src="https://suwayhotel.webhotel.vn/files/images/Room/senior-de-city-view/3.jpg" alt="anhladingpage"/>
-    </div>
-    <div class="col-6 d-flex flex-column justify-content-center align-items-center">
-      <p>Sự thoải mái tối đa của P2Q Hotel bắt nguồn từ sự tối giản và tinh tế trong thiết kế và bài trí của phong cách Tân cổ điển.</p>
-    <button class="btn btn-danger">Xem chi tiết</button>
-    </div>
-  </div>
-</div>
+</section>
+<br>
+<section class="section2">
+    <!--Popular room-->
+    <br>
+    <div class="w3-row-padding">
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-display-container">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192589/hotel_p2q/hotel_p2q_img6.jpg"
+                     alt="hotel_p2q_img6" style="width:100%">
+                <h3 class="text-uppercase text-center">FAST & EASY BOOKING</h3>
+                <hr class="solid">
+                <p>Đặt trước phòng khách sạn một cách dễ dàng và nhanh chóng, đem đến cho bạn trải nghiệm tốt
+                    nhất.</p>
+            </div>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-display-container">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192589/hotel_p2q/hotel_p2q_img4.jpg"
+                     alt="hotel_p2q_img4" style="width:100%">
+                <h3 class="text-uppercase text-center">FIVE STAR ROOMS</h3>
+                <hr class="solid">
+                <p>Tận hưởng một đêm nghỉ tại căn phòng hiện đại có ban công cùng với dịch vụ đưa đón khứ hồi.</p>
 
-</div>
+            </div>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-display-container">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192589/hotel_p2q/hotel_p2q_img5.jpg"
+                     alt="hotel_p2q_img5" style="width:100%">
+                <h3 class="text-uppercase text-center">BEST FOR DINING</h3>
+                <hr class="solid">
+                <p>Khám phá những khoảnh khắc hài lòng nhất với chỗ ở tiêu chuẩn cao và bữa ăn thịnh soạn.</p>
+            </div>
+        </div>
+        <div class="w3-col l3 m6 w3-margin-bottom">
+            <div class="w3-display-container">
+                <img src="https://res.cloudinary.com/dthmdqv1m/image/upload/v1671192590/hotel_p2q/hotel_p2q_img3.jpg"
+                     alt="House" style="width:100%">
+                <h3 class="text-uppercase text-center">GREAT PRICE</h3>
+                <hr class="solid">
+                <p>Chào đón năm mới, tận hưởng những khoảnh khắc tuyệt vời và nhiều ưu đãi cùng P2Q Hotel.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<section class="section3">
+    <div class="w3-content" style="max-width:1100px">
+        <div class="w3-row w3-padding-64" id="about">
+            <div class="w3-col m6 w3-padding-large w3-hide-small">
+                <img src="https://suwayhotel.webhotel.vn/files/images/Room/deluxe-city-view/3.jpg"
+                     class="w3-round w3-image w3-opacity-min" alt="Table Setting"
+                     width="600" height="750">
+            </div>
+            <div class="w3-col m6 w3-padding-large">
+                <h3 class="w3-center">Về chúng tôi</h3>
+                <p class="w3-large">
+                    P2Q HOTEL - Khách sạn với các phòng có kiến trúc hiện đại kết hợp
+                    với truyền thống, đem đến cảm giác mới lạ cho khách hàng.
+                    Được thành lập vào năm 2022 với tiêu chí "Khách hàng là thượng đế".
+                    P2Q Hotel tự hào có các phòng Deluxe mang đến cảm giác thư giãn và trang nhã theo Phong cách Tân cổ
+                    điển.
+                    Mỗi phòng tại P2Q Hotel là sự kết hợp của vẻ đẹp, tính thẩm mỹ và nghệ thuật.
+                    Sự thoải mái tối đa của P2Q Hotel bắt nguồn từ sự tối giản và tinh tế trong thiết kế
+                    và bài trí của phong cách Tân cổ điển.
+                </p>
+            </div>
+        </div>
+        <div class="w3-row w3-padding-64" id="event">
+            <div class="w3-col m6 w3-padding-large">
+                <h3 class="w3-center">Sự kiện</h3>
+                <p class="w3-large">
+                    Khách sạn luôn có các ưu đãi tốt nhất dành cho khách hàng, dù bạn đi một mình hay theo đoàn, đều sẽ
+                    được chúng tôi đón tiếp tận tình.
+                    Đôi với các ngày lễ lớn, chúng tôi sẽ tổ chức các sự kiện hấp dẫn, đem đến cho khách hàng những trải
+                    nghiệm tốt nhất khi ở đây.
+                </p>
+            </div>
+            <div class="w3-col m6 w3-padding-large w3-hide-small">
+                <img src="https://suwayhotel.webhotel.vn/files/images/Room/senior-de-city-view/3.jpg"
+                     class="w3-round w3-image w3-opacity-min" alt="Table Setting"
+                     width="600" height="750">
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

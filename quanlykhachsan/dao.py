@@ -392,29 +392,4 @@ if __name__ == '__main__':
     from quanlykhachsan import app
 
     with app.app_context():
-        ds = load_danhsachphong(ngaynhan = date_time.today() + datetime.timedelta(days=-30),
-                                ngaytra = date_time.today() + datetime.timedelta(days=30),
-                                trangthai='dangThue')
-        # print(date_time.today() + datetime.timedelta(days=-30))
-        # print(date_time.today() + datetime.timedelta(days=30))
-
-        arr = []
-        i = 0
-        print(load_phieuthuephong())
-        for pt in load_phieuthuephong():
-            arr.append([])
-            for j in range(0, 2):
-                if j == 1:
-                    arr[i].append(1)
-                else:
-                    arr[i].append(2)
-            i += 1
-        x = 0
-        for pt in load_phieuthuephong():
-            for y in range(0, 2):
-                print(f'{arr[x][y]}')
-            x += 1
-
-
-        print(arr)
-        # print(date_time.today() + datetime.timedelta(days=5))
+        pass

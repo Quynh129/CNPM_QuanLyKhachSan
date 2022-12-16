@@ -23,3 +23,17 @@ def annonymous_user(f):
         return f(*args, **kwargs)
 
     return decorated_func
+
+
+def block_admin(f):
+    @wraps(f)
+    def decorated_func(*args, **kwargs):
+        if current_user.is_authenticated:
+            user = get_user_by_id(current_user.get_id())
+            if user.phanQuyen.value == 0:  # admin
+                return redirect('/admin')
+            else:
+                return f(*args, **kwargs)
+
+
+    return decorated_func

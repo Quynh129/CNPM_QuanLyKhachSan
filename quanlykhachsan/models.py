@@ -182,10 +182,14 @@ if __name__ == '__main__':
                             ngayTra=date_time.datetime.strptime('2022/11/04', date_format),
                             ngayDat=date_time.datetime.strptime('2022/10/10', date_format),
                             trangThai='Đã nhận phòng', ma_taikhoan=4, ma_khachhang=3, ma_loaiphong=1, ma_phong=1)
-        pd4 = PhieuDatPhong(ngayNhan=date_time.datetime.strptime('2022/12/07', date_format),
-                            ngayTra=date_time.datetime.strptime('2022/12/10', date_format),
-                            ngayDat=date_time.datetime.strptime('2022/11/19', date_format),
+        # phiếu đặt trc, đã được chọn phòng, ngày nhận là now, trả sau 5 ngày, đặt từ 5 ngày trước
+        # test lập phiếu thuê
+        pd4 = PhieuDatPhong(ngayNhan=date_time.datetime.today().strftime("%Y-%m-%d 00:00:00"),
+                            ngayTra=datetime.today() + date_time.timedelta(days=5),
+                            ngayDat=datetime.today() + date_time.timedelta(days=-5),
                             trangThai='Chờ nhận phòng', ma_taikhoan=3, ma_khachhang=1, ma_loaiphong=1, ma_phong=4)
+        # phiếu mới đặt hôm nay
+        # test cập nhật phiếu đặt
         pd5 = PhieuDatPhong(ngayNhan=datetime.today() + date_time.timedelta(days=5),
                             ngayTra=datetime.today() + date_time.timedelta(days=10),
                             ngayDat=datetime.today(),
@@ -216,11 +220,12 @@ if __name__ == '__main__':
                              trangThai=True, ma_taikhoan=2, ma_phong=1)  # là pd3
 
         # phiếu thuê 3 chưa được thanh toán, cài đặt ngày trả la today để khi khởi tạo csdl sẽ có phiếu cần thanh toán
+        # test lập hóa đơn
         d_in_31 = datetime.today() + date_time.timedelta(days=-5)
-        d_out_32 = datetime.today()
+        d_out_32 = date_time.datetime.today().strftime("%Y-%m-%d 00:00:00")
         d_print_33 = datetime.today() + date_time.timedelta(days=-5)
         pt3 = PhieuThuePhong(ngayNhan=d_in_31, ngayTra=d_out_32, ngayLap=d_print_33,
-                             soNgay=abs(d_in_31 - d_out_32).days, donGia=1000000, tiLe=1 * 1.5,
+                             soNgay=5, donGia=1000000, tiLe=1 * 1.5,
                              ma_taikhoan=4, ma_phong=7)  # thuê trực tiếp, ko đặt trc
 
         # 1 loạt phiếu đã thanh toán (test thống kê) (ko có phiếu đặt)

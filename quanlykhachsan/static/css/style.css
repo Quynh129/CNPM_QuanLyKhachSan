@@ -1,50 +1,335 @@
+/* =============================================
+                Global Styling
+============================================= */
 * {
     font-family: Arial;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    background-color: #dbd8d6;
-    color: black;
+h2, h3, h4, h5, h6,
+h2 a, h3 a, h4 a, h5 a, h6 a{
+    padding: 0;
+    margin: 0;
 }
+h1, h2{
+    padding: 0;
+    margin: 0;
+}
+h1 a, h2 a{
+    margin: 0;
+    padding: 0;
+    font-family:  Arial, serif;
+    text-transform: none;
+    font-weight: normal;
+}
+h3 a, h4 a, h5 a, h6 a{
+    margin: 0;
+    font-size: 20px;
+    font-family:  Arial, serif;
+    text-transform: none;
+    display: inline-block;
+}
+h1{
+    font-size: 150px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
 
-h1 {
     margin: 50px auto 50px auto;
     text-align: center;
     padding-top: 1rem;
     color: Black;
 }
+span{
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+}
+h2{
+    font-size: 30px;
+    font-family:  Arial, serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: #C2C5AA;
+}
+h3{
+    font-size: 18px;
+    font-family:  Arial, serif;
+    font-weight: bold;
+}
+h4{
+    font-family:  Arial, serif;
+    font-weight: normal;
+    font-size: 16px;
+}
+h5{
+    font-family:  Arial, serif;
+    font-weight: normal;
+    font-size: 16px;
+}
+h6{
+    font-family:  Arial, serif;
+    font-weight: normal;
+    font-size: 14px;
+}
+p a {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+
+
 
 div {
     position: relative;
     box-sizing: border-box;
 }
 
-/*Select: yeuCauDatPhong, */
+li {
+    list-style: none;
+}
+
+
+
+
+
+body {
+    background-color: #656D4A;
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+
+/* =============================================
+                Header
+============================================= */
+.header{
+    background: rgba(0,0,0,0.4);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+    0 2px 2px rgba(0,0,0,0.12),
+    0 4px 4px rgba(0,0,0,0.12),
+    0 8px 8px rgba(0,0,0,0.12),
+    0 16px 16px rgba(0,0,0,0.12);
+    box-sizing: border-box;
+}
+.header .container{
+    padding: 0px;
+    margin: 0px auto;
+    position: relative;
+    z-index: 97;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 30px ;
+    box-sizing: border-box;
+}
+.brand{
+    height: 100%;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin: 0;
+    line-height: 80px;
+}
+.brand h2{
+    margin: 0;
+    padding: 0;
+    color: #d9d1b8;
+}
+nav ul{
+    float: left;
+    display: flex;
+    margin:0;
+    padding: 0;
+}
+nav ul li{
+    list-style: none;
+}
+nav ul li a{
+    position: relative;
+    display: block;
+    height: 80px;
+    line-height: 60px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+nav ul li a:before{
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: #fff;
+     transform-origin: right;
+     z-index: -1;
+     transform: scaleX(0);
+     transition:  transform 0.5s;
+}
+nav ul li a:hover:before{
+     transform-origin: left;
+     transform: scaleX(1);
+}
+nav ul li a:hover{
+    background-color: #936639;
+    color: #fff;
+}
+
+.acc-icon{
+    float: right;
+    margin-top: 30px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+    list-style: none;
+    display: inline-block;
+    color: #7F4F24;
+}
+
+.button-header {
+    float: right;
+    margin-top: 25px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+    list-style: none;
+    display: inline-block;
+    background: #936639;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+/* =============================================
+                Footer
+============================================= */
+footer{
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 50px 100px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #333D29;
+    color: #C2C5AA;
+}
+
+footer h3{
+    color: #A68A64;
+}
+
+.icon-footer {
+    color: #B6AD90;
+}
+
+
+/* =============================================
+                Trang chủ
+============================================= */
+/*<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">*/
+.section2{
+    background-color: #414833;
+    color: #C2C5AA;
+}
+.section3{
+    color: #C2C5AA;
+}
+
+.section2 h3 {
+    padding-top: 15px;
+}
+/* =============================================
+                Card
+============================================= */
+.card {
+    background-color: #333D29;
+    color: #fff;
+    border-radius: 8px;
+}
+.card h3{
+    font-size: 22px;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+.card label{
+    font-size: 18px;
+}
+.card-content{
+    padding: 25px;
+}
+
+/* =============================================
+                Form
+============================================= */
+.form-btn-gr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-button-sub, .form-button-can {
+    list-style: none;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-left: 20px;
+}
+.form-button-sub{
+    background: #936639;
+    color: #fff;
+}
+.form-button-can{
+    background: #B6AD90;
+    color: #333D29;
+}
+
+/* =============================================
+                Select
+============================================= */
 select {
     text-transform: capitalize;
     font-weight: bold;
 }
 
-}
-/**/
-
-/*Search: datPhong, thuePhong*/
+/* =============================================
+                Search
+============================================= */
+/*Search: soDo, datPhong, thuePhong*/
 .search {
     width: 100%;
     height: auto;
     padding-top: 20px;
     padding-bottom: 20px;
-    background: linear-gradient(to right, #fa9e1b, #8d4fff);
+    background-color: #333D29;
+    color: #fff;
     z-index: 10;
+    border-radius: 8px;
 }
 
 .search_panel {
     width: 100%;
     height: 100%;
     animation: fadeEffect 1s;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .search_panel_content {
@@ -60,13 +345,10 @@ select {
     padding-left: 25px;
     padding-right: 25px;
     padding-top: 12px;
-    background: #31124b;
+    background: #7F4F24;
     transform: translateY(15px);
     height: 50px;
-}
-
-.search_item:{
-
+    border-radius: 8px 0 0 8px; /* top-left | top-right | bottom-right | bottom-left */
 }
 
 .search_input {
@@ -80,6 +362,7 @@ select {
     height: 50px;
     border: none;
     outline: none;
+    border-radius: 0 8px 8px 0; /* top-left | top-right | bottom-right | bottom-left */
 }
 
 .search_sellect {
@@ -89,6 +372,11 @@ select {
     background: white;
     transform: translateY(15px);
     height: 50px;
+    border-radius: 0 8px 8px 0; /* top-left | top-right | bottom-right | bottom-left */
+}
+.search_sellect option{
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .search_button {
@@ -99,7 +387,7 @@ select {
     text-transform: uppercase;
     padding-left: 45px;
     padding-right: 45px;
-    background: #31124b;
+    background: #936639;
     transform: translateY(15px);
     border: none;
     outline: none;
@@ -108,7 +396,7 @@ select {
 .button {
     display: inline;
     height: 50px;
-    border-radius: 27px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -124,16 +412,54 @@ select {
     border-radius: 50%;
     margin-right: 2px;
 }
-/*--search--*/
 
-/* Table-phần bảng: trong: trong: datPhong, thuePhong */
-.table{
-    width: 100%;
-    padding: 16px;
-    padding: 1rem;
+/* =============================================
+                Table
+============================================= */
+/* Table-phần bảng: trong: trong: soDo, datPhong, thuePhong */
+table tr th, table tr td{
+    text-align: center;
+}
+table{
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
 }
 th {
   height: 70px;
 }
-/*--table--*/
+.table{
+    width: 100%;
+    padding: 16px;
+    padding: 1rem;
+    background-color: #d9d1b8;
+}
+.table-header{
+    background-color: #7F4F24;
+    color: #fff;
+
+}
+
+.table-header tr th{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.table-button-book, .table-button-in{
+    margin: 2px;
+    list-style: none;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 8px;
+}
+.table-button-book{
+    background: #656D4A;
+    color: #fff;
+}
+.table-button-in{
+    background: #936639;
+    color: #fff;
+}
+
+
 

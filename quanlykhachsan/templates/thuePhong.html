@@ -5,18 +5,18 @@
 {% endblock %}
 
 {% block content %}
-<h1>DANH SÁCH PHIẾU THUÊ PHÒNG</h1>
+<h2 class="text-center">DANH SÁCH PHIẾU THUÊ PHÒNG</h2>
 
 <div class="search">
     <div class="search_panel">
         <form action="" class="search_panel_content">
-            <ul class="d-flex row">
-                <div class="btn-group me-2 col-lg-5 col-md-12">
+            <div class="row">
+                <div class="btn-group col-xl-4 col-lg-4 col-md-7">
                     <p class="search_name">Họ tên khách hàng</p>
                     <input id="kw" name="keyword" type="text" placeholder="Nhập từ khóa ..."
                            class="search_item search_input">
                 </div>
-                <div class="btn-group me-2 col-lg-4 col-md-12">
+                <div class="btn-group col-xl-6 col-lg-5 col-md-5">
                     <p class="search_name">Trạng thái</p>
                     <select class="btn search_sellect" id="sel_state" name="state">
                         <option value="" disabled="disabled" selected="selected">Chọn trạng thái ...</option>
@@ -24,88 +24,96 @@
                         <option value="1">Đã thanh toán</option>
                     </select>
                 </div>
-                <div>
-                    <button class="button search_button col-lg-3 col-md-5">Tìm
-                        kiếm<span></span><span></span><span></span></button>
+                <div class="col-xl-2 col-lg-3 col-md-12">
+                    <button class="button search_button" type="submit">Tìm kiếm
+                        <span></span><span></span><span></span>
+                    </button>
                 </div>
-            </ul>
+            </div>
         </form>
     </div>
 </div>
-
 <br>
-
-{% if phieuthuephong %}
-{% if phieuthuechitiet %}
-{% if khachhang %}
-<table class="table table-bordered table-hover table-dark">
-    <thead class="table-success">
-    <tr>
-        <th>Mã phiếu</th>
-        <th>Khách hàng</th>
-        <th>Ngày nhận phòng</th>
-        <th>Ngày trả phòng</th>
-        <th>Mã phòng</th>
-        <th>Trạng thái</th>
-        <th>Ngày thanh toán</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    {% for pt in phieuthuephong %}
-    <tr>
-        <td>{{ pt[0] }}</td>
-        <td>
-            <div class="form-floating">
-                <select class="btn btn-outline-light" id="tenKH{{pt.id}}" name="sellist">
-                    {% for ptct in phieuthuechitiet %}
-                    {% if ptct.ma_phieuthue == pt.id %}
-
-                    {% for kh in khachhang %}
-                    {% if ptct.ma_khachhang == kh.id %}
-                    <option>{{kh.hoTen}}</option>
-                    {% endif %} <!--end: kh-->
-                    {% endfor %} <!--end: kh-->
-
-                    {% endif %} <!--end: ptct-->
-                    {% endfor %} <!--end: ptct-->
-                </select>
-            </div>
-        </td>
-        <td>{{ pt[2] }}</td>
-        <td>{{ pt[3] }}</td>
-        <td>{{ pt[4] }}</td>
-        {% if pt.trangThai %}
-        <td style="color:green">Đã thanh toán</td>
-        <td>{{ pt[6] }}</td>
-        {% else %}
-        <td style="color:tomato">Chưa thanh toán</td>
-        <td>Chưa thanh toán</td>
-        {% endif %}
-        <td>
-            <a class="btn btn-info d-flex" href="/chiTietPhieuThue_HD/{{ pt[0] }}">Chi tiết</a>
-        </td>
-        <td>
-            {% if pt.trangThai %}
-            <a class="btn btn-info d-flex disabled">Đã thanh toán</a>
-            {% else %}
-            {% for d in date %}
-                {% if d[0] == pt.id and d[1]==1 %}
-                <a class="btn btn-info d-flex" href="/chiTietPhieuThue_HD/{{ pt[0] }}">Thanh toán</a>
-                {% elif d[0] == pt.id and d[1]==0  %}
-                <a class="btn btn-info d-flex disabled">Chưa thể thanh toán</a>
-                {% endif %}
-            {% endfor %}
-            {% endif %}
-
-
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %} <!--end: khachhang-->
-{% endif %} <!--end: phieuthuechitiet-->
-{% else %}
-<p class="text-center" style="color: #333132">Không có phiếu thuê nào!</p>
+{% if hoadon %}
+<div class="alert alert-warning">
+    <p>Hiện tại có <kbd>{{hoadon}}</kbd> phiếu thuê tới hạn thanh toán</p>
+</div>
 {% endif %}
+<br>
+<div class="container">
+    {% if phieuthuephong %}
+    {% if phieuthuechitiet %}
+    {% if khachhang %}
+    <table class="table table-bordered table-hover">
+        <thead class="table-header">
+        <tr>
+            <th>Mã phiếu</th>
+            <th>Khách hàng</th>
+            <th>Ngày nhận phòng</th>
+            <th>Ngày trả phòng</th>
+            <th>Mã phòng</th>
+            <th>Trạng thái</th>
+            <th>Ngày thanh toán</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        {% for pt in phieuthuephong %}
+        <tr>
+            <td>{{ pt[0] }}</td>
+            <td>
+                <div class="form-floating">
+                    <select class="btn btn-outline-light" id="tenKH{{pt.id}}" name="sellist" style="color: black">
+                        {% for ptct in phieuthuechitiet %}
+                        {% if ptct.ma_phieuthue == pt.id %}
+
+                        {% for kh in khachhang %}
+                        {% if ptct.ma_khachhang == kh.id %}
+                        <option>{{kh.hoTen}}</option>
+                        {% endif %} <!--end: kh-->
+                        {% endfor %} <!--end: kh-->
+
+                        {% endif %} <!--end: ptct-->
+                        {% endfor %} <!--end: ptct-->
+                    </select>
+                </div>
+            </td>
+            <td>{{ pt[2] }}</td>
+            <td>{{ pt[3] }}</td>
+            <td>{{ pt[4] }}</td>
+            {% if pt.trangThai %}
+            <td style="background-color: #abc4ab">Đã thanh toán</td>
+            <td>{{ pt[6] }}</td>
+            {% else %}
+            <td style="background-color: #c06e52">Chưa thanh toán</td>
+            <td>Chưa thanh toán</td>
+            {% endif %}
+            <td>
+                <a class="btn table-button-book" href="/chiTietPhieuThue_HD/{{ pt[0] }}">Chi tiết</a>
+            </td>
+            <td>
+                {% if pt.trangThai %}
+                <a class="btn table-button-in disabled">Đã thanh toán</a>
+                {% else %}
+                {% for d in date %}
+                {% if d[0] == pt.id and d[1]==1 %}
+                <a class="btn table-button-in" href="/chiTietPhieuThue_HD/{{ pt[0] }}">Thanh toán</a>
+                {% elif d[0] == pt.id and d[1]==0 %}
+                <a class="btn table-button-in disabled">Chưa thể thanh toán</a>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %} <!--end: khachhang-->
+    {% endif %} <!--end: phieuthuechitiet-->
+    {% else %}
+    <p class="text-center" style="color: #333132">Không có phiếu thuê nào!</p>
+    {% endif %}
+</div>
+
 {% endblock %}

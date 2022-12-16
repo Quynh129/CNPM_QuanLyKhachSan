@@ -5,119 +5,139 @@
 {% endblock %}
 
 {% block content %}
-<h1>DANH SÁCH PHIẾU ĐẶT PHÒNG</h1>
+<h2 class="text-center">DANH SÁCH PHIẾU ĐẶT PHÒNG</h2>
 
 <div class="search">
     <div class="search_panel">
         <form action="" class="search_panel_content">
-            <ul class="d-flex">
-                <div class="row">
-                    <div class="btn-group me-2">
-                        <p class="search_name">Họ tên khách hàng</p>
-                        <input name="keyword" type="text" placeholder="Nhập từ khóa ..."
-                               class="search_item search_input">
-                    </div>
-                    <div class="btn-group me-2">
-                        <p class="search_name">Trạng thái</p>
-                        <select class="btn search_sellect" id="sel_state" name="state">
-                            <option value="" disabled="disabled" selected="selected">Chọn trạng thái ...</option>
-                            <option value="Chờ tiếp nhận">Chờ tiếp nhận</option>
-                            <option value="Chờ phản hồi">Chờ phản hồi</option>
-                            <option value="Chờ nhận phòng">Chờ nhận phòng</option>
-                            <option value="Đã nhận phòng">Đã nhận phòng</option>
-                            <option value="Đã hủy">Đã hủy</option>
-                        </select>
-                    </div>
+            <div class="row">
+                <div class="btn-group col-xl-4 col-lg-4 col-md-7">
+                    <p class="search_name">Họ tên khách hàng</p>
+                    <input name="keyword" type="text" placeholder="Nhập từ khóa ..."
+                           class="search_item search_input">
                 </div>
-                <div>
-                    <button class="button search_button" type="submit">Tìm kiếm<span></span><span></span><span></span>
+                <div class="btn-group col-xl-6 col-lg-5 col-md-5">
+                    <p class="search_name">Trạng thái</p>
+                    <select class="btn search_sellect" id="sel_state" name="state">
+                        <option value="" disabled="disabled" selected="selected">Chọn trạng thái ...</option>
+                        <option value="Chờ tiếp nhận">Chờ tiếp nhận</option>
+                        <option value="Chờ phản hồi">Chờ phản hồi</option>
+                        <option value="Chờ nhận phòng">Chờ nhận phòng</option>
+                        <option value="Đã nhận phòng">Đã nhận phòng</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-12">
+                    <button class="button search_button" type="submit">Tìm kiếm
+                        <span></span><span></span><span></span>
                     </button>
                 </div>
-            </ul>
+            </div>
         </form>
     </div>
+    <br>
 </div>
-
-{% if phieudatphong %}
-<table class="table table-bordered table-hover table-dark">
-    <thead class="table-success">
-    <tr>
-        <th>Mã phiếu</th>
-        <th>Khách hàng</th>
-        <th>Ngày nhận phòng</th>
-        <th>Ngày trả phòng</th>
-        <th>Ngày đặt phòng</th>
-        <th>Mã phòng</th>
-        <th>Trạng thái</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    {% for pd in phieudatphong %}
-    <tr>
-        <td>{{ pd[0] }}</td>
-        <td>{{ pd[1] }}</td>
-        <td>{{ pd[2] }}</td>
-        <td>{{ pd[3] }}</td>
-        <td>{{ pd[4] }}</td>
-        {% if pd.ma_phong %}
-        <td>{{ pd[5] }}</td>
-        {% else %}
-        {% if pd.trangThai == "Đã hủy" %}
-        <td>Đã hủy</td>
-        {% else %} <!--pd.trangThai == "Đã hủy"-->
-        <td style="color:tomato">Chưa xếp phòng</td>
-        {% endif %} <!--pd.trangThai == "Đã hủy"-->
-        {% endif %}
-
-        {% if pd.trangThai == "Chờ tiếp nhận" %}
-        <td style="color:tomato">{{ pd[6] }}</td>
-        {% elif pd.trangThai == "Chờ phản hồi" %}
-        <td style="color:violet">{{ pd[6] }}</td>
-        {% elif pd.trangThai == "Chờ nhận phòng" %}
-        <td style="color:pink">{{ pd[6] }}</td>
-        {% elif pd.trangThai == "Đã nhận phòng" %}
-        <td style="color:green">{{ pd[6] }}</td>
-        {% else %}
-        <td style="color:wwhite">{{ pd[6] }}</td>
-        {% endif %}
-
-        <td>
-            {% if pd.trangThai == "Đã nhận phòng" or pd.trangThai == "Đã hủy" %}
-            <a class="btn btn-info d-flex" href="/chiTietPhieuDat/{{ pd[0] }}">Chi tiết</a>
-            {% else %} <!--chờ tiếp nhận / chờ phản hồi / chờ nhânk: vẫn có thể chỉnh sửa-->
-            <a class="btn btn-info d-flex" href="/chiTietPhieuDat/{{ pd[0] }}">Chỉnh sửa</a>
+<br>
+{% if yeucau %}
+<div class="alert alert-warning">
+    <p>Hiện tại có <kbd>{{yeucau}}</kbd> phiếu đặt phòng chờ tiếp nhận</p>
+</div>
+{% endif %}
+{% if thue %}
+<div class="alert alert-warning">
+    <p>Hiện tại có <kbd>{{thue}}</kbd> phiếu đặt tới ngày nhận phòng</p>
+</div>
+{% endif %}
+<br>
+<div class="container">
+    {% if phieudatphong %}
+    <table class="table table-bordered table-hover">
+        <thead class="table-header">
+        <tr>
+            <th>Mã phiếu</th>
+            <th>Khách hàng</th>
+            <th>Ngày nhận phòng</th>
+            <th>Ngày trả phòng</th>
+            <th>Ngày đặt phòng</th>
+            <th>Mã phòng</th>
+            <th>Trạng thái</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        {% for pd in phieudatphong %}
+        <tr>
+            <td>{{ pd[0] }}</td>
+            <td>{{ pd[1] }}</td>
+            <td>{{ pd[2] }}</td>
+            <td>{{ pd[3] }}</td>
+            <td>{{ pd[4] }}</td>
+            {% if pd.ma_phong %}
+            <td>{{ pd[5] }}</td>
+            {% else %}
+            {% if pd.trangThai == "Đã hủy" %}
+            <td>Đã hủy</td>
+            {% else %} <!--pd.trangThai == "Đã hủy"-->
+            <td style="background-color:#a5907e">Chưa xếp phòng</td>
+            {% endif %} <!--pd.trangThai == "Đã hủy"-->
             {% endif %}
-        </td>
-        <td>
-            {% if pd.trangThai == "Chờ nhận phòng" %}
+
+            {% if pd.trangThai == "Chờ tiếp nhận" %}
+            <td style="background-color: #a5907e">{{ pd[6] }}</td>
+            {% elif pd.trangThai == "Chờ phản hồi" %}
+            <td style="background-color: #A68A64">{{ pd[6] }}</td>
+            {% elif pd.trangThai == "Chờ nhận phòng" %}
+            <td style="background-color: #A4AC86">{{ pd[6] }}</td>
+            {% elif pd.trangThai == "Đã nhận phòng" %}
+            <td>{{ pd[6] }}</td>
+            {% else %}
+            <td>{{ pd[6] }}</td>
+            {% endif %}
+
+            <td>
+                {% if pd.trangThai == "Đã nhận phòng" or pd.trangThai == "Đã hủy" %}
+                <a class="btn table-button-book" href="/chiTietPhieuDat/{{ pd[0] }}">Chi tiết</a>
+                {% else %} <!--chờ tiếp nhận / chờ phản hồi / chờ nhânk: vẫn có thể chỉnh sửa-->
+                <a class="btn table-button-book" href="/chiTietPhieuDat/{{ pd[0] }}">Chỉnh sửa</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if pd.trangThai == "Chờ nhận phòng" %}
                 {% for d in date %}
-                    {% if d[0] == pd.id and d[1] == 1 %}
-                    <a class="btn btn-info d-flex" href="/chiTietPhieuThueDatTruoc/{{ pd[0] }}">Thuê phòng</a>
-                    {% elif d[0] == pd.id and d[1] == 0 %}
-                    <a class="btn btn-info d-flex disabled" href="/chiTietPhieuThueDatTruoc/{{ pd[0] }}">Chưa đến ngày thuê</a>
-                    {% endif %}
+                {% if d[0] == pd.id and d[1] == 1 %}
+                <a class="btn table-button-in" href="/chiTietPhieuThueDatTruoc/{{ pd[0] }}">Thuê phòng</a>
+                {% elif d[0] == pd.id and d[1] == 0 %}
+                <a class="btn table-button-in disabled" href="/chiTietPhieuThueDatTruoc/{{ pd[0] }}">Chưa đến ngày
+                    thuê</a>
+                {% endif %}
                 {% endfor %}
 
-            {% elif pd.trangThai == "Đã nhận phòng" %}
-            <a class="btn btn-info d-flex disabled">Đã thuê phòng</a>
-            {% else %}
-            <a class="btn btn-info d-flex disabled">Không thể thuê phòng</a>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+                {% elif pd.trangThai == "Đã nhận phòng" %}
+                <a class="btn table-button-in disabled">Đã thuê phòng</a>
+                {% else %}
+                <a class="btn table-button-in disabled">Không thể thuê phòng</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
-<div class="mt-4 p-5 bg-primary text-white rounded">
-  <h1>Quy định đặt phòng</h1>
-  <p>Chỉ được chỉnh sửa khi phiếu còn ở 1 trong các trạng thái: chờ tiếp nhận, chờ phản hồi và chờ nhận phòng</p>
-    <h1>Quy định thuê phòng có đặt trước</h1>
-  <p>Chỉ được thuê phòng đối với các phiếu đặt có trạng thái là chờ nhận phòng và đúng với thời gian nhận phòng đã đặt</p>
+
+
+    {% else %}
+    <p class="text-center" style="color: #333132">Không có phiếu đặt nào nào!</p>
+    {% endif %}
+    <div class="card shadow">
+        <div class="card-content">
+            <h2>Quy định đặt phòng</h2>
+            <p>Chỉ được chỉnh sửa khi phiếu còn ở 1 trong các trạng thái: chờ tiếp nhận, chờ phản hồi và chờ nhận
+                phòng</p>
+            <h2>Quy định thuê phòng có đặt trước</h2>
+            <p>Chỉ được thuê phòng đối với các phiếu đặt có trạng thái là chờ nhận phòng và đúng với thời gian nhận
+                phòng đã đặt</p>
+        </div>
+    </div>
+    <br>
 </div>
-
-{% else %}
-<p class="text-center" style="color: #333132">Không có phiếu đặt nào nào!</p>
-{% endif %}
 
 {% endblock %}
