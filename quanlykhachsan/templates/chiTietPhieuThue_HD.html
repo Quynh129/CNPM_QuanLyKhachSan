@@ -121,6 +121,39 @@
                                value="{{phieuthuephong.donGia*phieuthuephong.soNgay*phieuthuephong.tiLe}} VNĐ" readonly>
                     </div>
                 </div>
+                <div class="row">
+                    <h4 class="text-center">Chi tiết tỉ lệ phụ thu áp dụng</h4>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-header">
+                        <tr>
+                            <th>Mã tỉ lệ</th>
+                            <th>Tên</th>
+                            <th>Giá trị</th>
+                        </tr>
+                        </thead>
+                        {% if phieuthuephong.tiLe != 1 %}
+                            {% for pttl in phieuthue_tile %}
+                            {% if pttl.ma_phieuthue == phieuthuephong.id %}
+                            <tr>
+                                {% for tlpt in tilephuthu %}
+                                {% if tlpt.id == pttl.ma_tile %}
+                                <td>{{ tlpt.id }}</td>
+                                <td>{{ tlpt.ten }}</td>
+                                <td>{{ tlpt.giaTri }}</td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td>0</td>
+                            <td>Bình thường</td>
+                            <td>1</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
             </div>
         </div>
         <br>

@@ -21,7 +21,9 @@
                 <div class="row">
                     <div class="mb-5 mt-5 col">
                         <label for="i_checkin" class="form-label">Ngày dự kiến nhận phòng:</label>
-                        <div id="i_checkin" name="checkin"></div>
+                        <input type="text" class="form-control form-control-lg" id="i_checkin" name="checkin"
+                               value="{{ date }}" readonly>
+<!--                        <div id="i_checkin" name="checkin"></div>-->
                     </div>
                     <div class="mb-5 mt-5 col">
                         <label for="i_checkout" class="form-label">Ngày dự kiến trả phòng:</label>
@@ -36,13 +38,11 @@
                     <div class="mb-5 mt-5 col-lg-6 col-md-7">
                         <label for="i_type_room" class="form-label">Phân loại phòng:</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Person</span>
                             {% for loaip in loaiphong %}
                             <input type="text" class="form-control form-control-lg" id="i_type_room" name="name_room"
                                    value="{{ loaip[1] }}" readonly>
                             <input type="number" class="form-control form-control-lg" id="i_type_room_price"
-                                   name="type_room"
-                                   value="{{ loaip[2] }}" readonly>
+                                   name="type_room" value="{{ loaip[2] }}" readonly>
                             {% endfor %}
                         </div>
                     </div>
@@ -126,15 +126,13 @@
     </form>
 </div>
 
-<script>
-    var curDate = new Date();
-    var curDay = curDate.getDate();
-    var curMonth = curDate.getMonth() + 1;  // (0-11)
-    var curYear = curDate.getFullYear();
+<!--<script>-->
+<!--    var curDate = new Date();-->
+<!--    var curDay = curDate.getDate();-->
+<!--    var curMonth = curDate.getMonth() + 1;  // (0-11)-->
+<!--    var curYear = curDate.getFullYear();-->
 
-    document.getElementById('i_checkin').innerHTML = curDay + "/" + curMonth + "/" + curYear;
-
-
-</script>
+<!--    document.getElementById('i_checkin').innerHTML = curDay + "/" + curMonth + "/" + curYear;-->
+<!--</script>-->
 
 {% endblock %}

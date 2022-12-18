@@ -325,6 +325,8 @@ def chitietphieuthue_null(phong_id):
     soluong = range(loaiphong[0][3])  # lấy slg maxKH để tạo form KH
     tilephuthu = dao.load_tilephuthu()
 
+    date = date_time.datetime.today().strftime("%m/%d/%Y")  # hiển thị
+
     if request.method.__eq__('POST'):
         ngaynhan = date_time.datetime.today()
         ngaytra = request.form['checkout']
@@ -397,7 +399,7 @@ def chitietphieuthue_null(phong_id):
             err_msg = 'Lỗi! Ngày nhận phòng phải trước ngày trả phòng'
 
     return render_template('chiTietPhieuthueRong.html', loaiphong=loaiphong, err_msg=err_msg,
-                           phong_id=phong_id, soluong=soluong, tilephuthu=tilephuthu)
+                           phong_id=phong_id, soluong=soluong, tilephuthu=tilephuthu, date=str(date))
 
 
 # ----- 2.Từ dsach đặt
@@ -493,6 +495,10 @@ def chitietphieudattruoc(phieudatphong_id):
 def chitietphieuthue(phieuthuephong_id):
     err_msg = ''
     pt = dao.get_phieuthue_by_id(phieuthuephong_id)
+
+    tlpt = dao.load_tilephuthu()
+    pt_tl = dao.load_phieuthuetile()
+
     khpt = dao.get_chitietphieuthue_by_id(phieuthuephong_id)
     khachhang = dao.load_khachhang()
     loaiphong = dao.get_loaiphong_by_phongid(phong_id=pt.ma_phong)
@@ -509,6 +515,7 @@ def chitietphieuthue(phieuthuephong_id):
 
     # print(err_msg)
     return render_template('chiTietPhieuThue_HD.html', phieuthuephong=pt, loaiphong=loaiphong,
+                           tilephuthu=tlpt, phieuthue_tile=pt_tl,
                            khachhangphieuthue=khpt, khachhang=khachhang,
                            ngaythanhtoan=ngaythanhtoan,
                            err_msg=err_msg)

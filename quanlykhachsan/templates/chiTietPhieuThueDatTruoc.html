@@ -87,6 +87,7 @@
                         </select>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">Không được bỏ trống phần này!!!</div>
+                        <p>Thông tin quốc tịch của người đặt: {{khachhang.quocTich}}</p>
                         {% else %}
                         <select class="form-select form-select-lg" id="i_cus_type_{{sl}}" name="cus_nation_{{sl}}">
                             {% include '/layout/country.html' %}

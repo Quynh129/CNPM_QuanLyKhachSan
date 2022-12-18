@@ -258,6 +258,10 @@ def load_phieuthuechitiet():
     return PhieuThueChiTiet.query.all()
 
 
+def load_phieuthuetile():
+    return PhieuThueTiLe.query.all()
+
+
 def get_id_phieuthue_last():
     query = db.session.query(PhieuThuePhong).order_by(PhieuThuePhong.id.desc()).first()
     id_pt = query.id
